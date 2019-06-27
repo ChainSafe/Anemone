@@ -23,9 +23,9 @@ const generateWallets = async (num: number) => {
 
 const fundWallets = async (wallets: Array<any>, mainWallet: any): Promise<string[]> => {
   //send each wa]llet the max possible gas amount for each transaction + the amount of the transaction as specified in config
-  const numTransactions = ethers.utils.bigNumberify(config.numTransactions/config.numWallets);
-  const transactionAmount = ethers.utils.bigNumberify(config.amount).mul(numTransactions);
-  const maxGasAmount = (ethers.utils.bigNumberify(ethers.utils.parseUnits(config.gasPrice, "gwei")).mul(ethers.utils.bigNumberify(config.maxGas))).mul(numTransactions);
+  const numTransactions = bn(config.numTransactions/config.numWallets);
+  const transactionAmount = bn(config.amount).mul(numTransactions);
+  const maxGasAmount = (bn(ethers.utils.parseUnits(config.gasPrice, "gwei")).mul(bn(config.maxGas))).mul(numTransactions);
   const amount = transactionAmount.add(maxGasAmount);
 
   const txHashes: string[] = [];
@@ -37,15 +37,16 @@ const fundWallets = async (wallets: Array<any>, mainWallet: any): Promise<string
       nonce: nonce,
       value: amount,
       to: dest,
-      gasLimit: ethers.utils.bigNumberify(config.maxGas),
-      gasPrice: ethers.utils.parseUnits(config.gasPrice, "gwei"),
-      chainId: 1337
+      gasLimit: bn(config.maxGas),
+      gasPrice: parseGwei(config.gasPrice),
+      chainId: config.chainId
     };
     const txResponse = await mainWallet.sendTransaction(tx);
-    console.log("send")
+    console.log(`sent transaction to fund address ${dest}`)
     txHashes.push(txResponse.hash);
     nonce += 1;
   }
+  console.log(`\n`);
 
   return txHashes;
 
@@ -54,12 +55,13 @@ const fundWallets = async (wallets: Array<any>, mainWallet: any): Promise<string
 
 const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
   //we want to split the transactions equally among the wallets to be sent from.
-  const numTransactions = ethers.utils.bigNumberify(Math.ceil(config.numTransactions/config.numWallets));
-  const amount = ethers.utils.bigNumberify(config.amount);
+  const numTransactions = bn(Math.ceil(config.numTransactions/config.numWallets));
+  const amount = bn(config.amount);
   const txs: any = [];
-  const numWallets = wallets.length;  for (let i: number = 0; i < wallets.length; i++) {
+  const numWallets = wallets.length; 
+  console.log("Broadcasting transactions...") 
+  for (let i: number = 0; i < wallets.length; i++) {
     const sender: Wallet = new ethers.Wallet(wallets[i].privateKey, provider);
-    console.log("batch1");
 
     let nonce = 0;
     for (let j = 0; j < numTransactions; j++) {
@@ -70,19 +72,26 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
 	      nonce: nonce,
         value: amount,
         to: dest,
-        gasLimit: ethers.utils.bigNumberify(config.maxGas),
-        gasPrice: ethers.utils.parseUnits(config.gasPrice, "gwei"),
-        chainId: 1337
+        gasLimit: bn(config.maxGas),
+        gasPrice: parseGwei(config.gasPrice),
+        chainId: config.chainId
       };
       nonce += 1;
-      console.log("sent tx")
-      await sender.sendTransaction(tx);
+      sender.sendTransaction(tx);
       txs.push(tx); 
     }
     }
-  console.log(`\n Created and broadcasted ${txs.length} transactions.`);
+  console.log(`\nCreated and broadcasted ${txs.length} transactions.`);
   return txs;
 };
+
+const bn = (num: any) => {
+  return ethers.utils.bigNumberify(num);
+}
+
+const parseGwei = (gwei: string) => {
+  return ethers.utils.parseUnits(gwei, "gwei")
+}
 
 export {
   connect,

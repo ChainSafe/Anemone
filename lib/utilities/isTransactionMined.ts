@@ -13,7 +13,9 @@ const TransactionsMined = async (
 
     for (let i: number = 0; i < txHashes.length; i++) {
       await blockNums[i];
+      console.log(`transaction mined! (hash: ${txHashes[i]})`)
     }
+    console.log(`\n`);
 
     resolve();
   });

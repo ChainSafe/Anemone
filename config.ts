@@ -14,11 +14,11 @@ const config: any = {
     //Url to node open for RPC, defaults to default localhost port
     rpcUrl: "http://localhost:8545",
     
-    //number of transact    ions to generate and throw
-    numTransactions: "200",
+    //number of transactions to generate and throw
+    numTransactions: "2000",
 
     //number of wallets that will be created to throw/recieve transactions
-    numWallets: "10",
+    numWallets: "100",
 
     //set true to deploy and test the smart contracts containing each opcode
     //consider 
@@ -35,6 +35,9 @@ const config: any = {
 
     //private key of wallet that will fund the other sender wallets
     funderPrivateKey: "",
+
+    //chainId
+    chainId:
 
 };
 
