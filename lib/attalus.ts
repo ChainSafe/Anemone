@@ -71,7 +71,7 @@ const batchTxs = async (wallets: Array<any>,mainWallet: any, provider: JsonRpcPr
       const dest = await wallets[destIndex].getAddress();
       const tx = {
 	      nonce: nonce,
-        value: 0,
+        value: amount,
         to: dest,
         gasLimit: ethers.utils.bigNumberify(config.maxGas),
         gasPrice: ethers.utils.parseUnits(config.gasPrice, "gwei"),

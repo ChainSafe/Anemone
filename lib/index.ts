@@ -21,14 +21,14 @@ const Main = async () => {
   // Send fuel to subwallets
   const txHashes = await fundWallets(wallets, mainWallet, provider);
 
-  //await TransactionsMined(txHashes, 500, provider);
+  await TransactionsMined(txHashes, 500, provider);
 
+  console.log("HERE2")
   //create and send the transactions
-  setTimeout(async function () {
   await batchTxs(wallets, mainWallet, provider);
- }, 180000);
 
-
+  console.log("HERE")
+  return
   
 
 };
