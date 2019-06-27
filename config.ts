@@ -34,7 +34,7 @@ const config: any = {
     maxGas: "2000000",
 
     //private key of wallet that will fund the other sender wallets
-    funderPrivateKey: "0xf012dbcd3fb3c0d1e76d55bf4a5360f0eff0923e5600dd75be0441453767e2f2",
+    funderPrivateKey: "",
 
 };
 
