@@ -1,23 +1,31 @@
-const ethers = require("ethers");
+import { JsonRpcProvider } from "ethers/providers";
 
-const TransactionsMined = async (txHashes: Array<any>, interval, provider) => {
-  return new Promise(async (resolve, reject) => {
+const TransactionsMined = async (
+  txHashes: Array<string>,
+  interval: number,
+  provider: JsonRpcProvider
+): Promise<void> => {
+  return new Promise(async resolve => {
     let blockNums = [];
     for (let i: number = 0; i < txHashes.length; i++) {
       blockNums[i] = transactionRecieptExist(txHashes[i], interval, provider);
     }
-    
+
     for (let i: number = 0; i < txHashes.length; i++) {
-      await blockNums[i]
+      await blockNums[i];
     }
 
     resolve();
   });
 };
 
-const transactionRecieptExist = async (txHash, interval, provider) => {
-  var txResponse = await provider.getTransaction(txHash);
-  return new Promise((resolve, reject) => {
+const transactionRecieptExist = async (
+  txHash: string,
+  interval: number,
+  provider: JsonRpcProvider
+) => {
+  const txResponse = await provider.getTransaction(txHash);
+  return new Promise(resolve => {
     if (txResponse.blockNumber == null) {
       setTimeout(async function() {
         const temp = await transactionRecieptExist(txHash, interval, provider);
@@ -29,4 +37,4 @@ const transactionRecieptExist = async (txHash, interval, provider) => {
   });
 };
 
-export {TransactionsMined};
+export { TransactionsMined };
