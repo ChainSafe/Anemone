@@ -1,41 +1,40 @@
-import {providers} from "ethers";
-const ethers = require("ethers");
-import {JsonRpcProvider} from "ethers/providers";
-import { resolve } from "url";
+import { JsonRpcProvider } from "ethers/providers";
 
-
-const TransactionsMined = async (txHashes: Array<any>, interval, provider) => {
-    return new Promise(async (resolve, reject) => {
-    const blockNum = null;
+const TransactionsMined = async (
+  txHashes: Array<string>,
+  interval: number,
+  provider: JsonRpcProvider
+): Promise<void> => {
+  return new Promise(async resolve => {
+    let blockNums = [];
     for (let i: number = 0; i < txHashes.length; i++) {
-        console.log(`blocknum: start`);
-        let blockNum = await transactionRecieptExist(txHashes[i], interval, provider);
-        console.log(`blocknum: ${blockNum}`);
-    };
+      blockNums[i] = transactionRecieptExist(txHashes[i], interval, provider);
+    }
 
-    let b = await blockNum;
-    resolve(b);
+    for (let i: number = 0; i < txHashes.length; i++) {
+      await blockNums[i];
+    }
 
-});
-  
-  }
+    resolve();
+  });
+};
 
-//
-const transactionRecieptExist = async (txHash, interval, provider) => {
-        var txResponse = await provider.getTransaction(txHash);
-        console.log(`response 1: ${txResponse.blockNumber}$`);
-        return new Promise((resolve, reject) => {
-        if (txResponse.blockNumber == null){
-                setTimeout(async function () {
-                    await transactionRecieptExist(txHash, interval, provider);
-                }, interval); 
-        } else {
-            console.log(`response 2: ${txResponse.blockNumber}$`);
-            resolve(txResponse.blockNumber);
-        }});
+const transactionRecieptExist = async (
+  txHash: string,
+  interval: number,
+  provider: JsonRpcProvider
+) => {
+  const txResponse = await provider.getTransaction(txHash);
+  return new Promise(resolve => {
+    if (txResponse.blockNumber == null) {
+      setTimeout(async function() {
+        const temp = await transactionRecieptExist(txHash, interval, provider);
+        resolve(temp);
+      }, interval);
+    } else {
+      resolve(txResponse.blockNumber);
+    }
+  });
+};
 
-}
-
-export {
-    TransactionsMined
-  }
+export { TransactionsMined };
