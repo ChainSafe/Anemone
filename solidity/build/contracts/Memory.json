@@ -1,0 +1,471 @@
+{
+  "contractName": "Memory",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_stop",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_revert",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_invalid",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "testOpcodes",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"testOpcodes\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_revert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_invalid\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/memory.sol\":\"Memory\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol\":{\"keccak256\":\"0x9a8001897ada7e0b3f948322b08b5f0d733c043570a445cf53ac23d58bf52dbc\",\"urls\":[\"bzzr://06097e06f5f60ea2e9b630e56d73436d7155fa659275ee0bac3fb6677cd991a3\"]},\"/home/stephanie/chainsafe/attalus/solidity/contracts/memory.sol\":{\"keccak256\":\"0x72883af1323f394dfbaeb2a1014b5cc591ea42bdbf6ed5448cb996320db0e8a2\",\"urls\":[\"bzzr://39304973432d9b3cfe2ba4f165c5d59c0d22e6eacce1926d006e35c022d63b3e\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060b68061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b60596081565b005b60616083565b005b60696088565b005b60006212d6879050604051818152600481535050565b005b600080fd5bfefea165627a7a72305820554931ab68ea682cbfed66f3bf25883b992f0892d45f4a823f51aa51d70a22a80029",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b60596081565b005b60616083565b005b60696088565b005b60006212d6879050604051818152600481535050565b005b600080fd5bfefea165627a7a72305820554931ab68ea682cbfed66f3bf25883b992f0892d45f4a823f51aa51d70a22a80029",
+  "sourceMap": "49:369:12:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;49:369:12;;;;;;;",
+  "deployedSourceMap": "49:369:12:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;49:369:12;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;96:317;;;:::i;:::-;;374:50:1;;;:::i;:::-;;252:58;;;:::i;:::-;;314:56;;;:::i;:::-;;96:317:12;133:6;150:7;133:25;;238:4;232:11;314:1;311;304:12;352:1;349;341:13;173:235;;:::o;374:50:1:-;414:6;252:58;304:1;301;294:12;314:56;357:9",
+  "source": "import \"./Abstracts/TestContractInterface.sol\";\n\ncontract Memory is TestContractInterface {\n\n\n  function testOpcodes() public {\n\n    uint b = uint256(1234567);\n\n    assembly{\n\n        //load the free memory pointer\n        let a := mload(0x40)\n        //store uint256 of apples in first 32 bytes\n        mstore(a, b)\n        //add 4\n        mstore8(a, 4)\n        //this gonna be 0\n        pop(msize())\n\n    }\n\n  }\n  \n}",
+  "sourcePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/memory.sol",
+  "ast": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/memory.sol",
+    "exportedSymbols": {
+      "Memory": [
+        444
+      ]
+    },
+    "id": 445,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 430,
+        "nodeType": "ImportDirective",
+        "scope": 445,
+        "sourceUnit": 55,
+        "src": "0:47:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 431,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "68:21:12",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 432,
+            "nodeType": "InheritanceSpecifier",
+            "src": "68:21:12"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 444,
+        "linearizedBaseContracts": [
+          444,
+          54
+        ],
+        "name": "Memory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 442,
+              "nodeType": "Block",
+              "src": "126:287:12",
+              "statements": [
+                {
+                  "assignments": [
+                    436
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 436,
+                      "name": "b",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 442,
+                      "src": "133:6:12",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 435,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "133:4:12",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 440,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "31323334353637",
+                        "id": 438,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "150:7:12",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_1234567_by_1",
+                          "typeString": "int_const 1234567"
+                        },
+                        "value": "1234567"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_rational_1234567_by_1",
+                          "typeString": "int_const 1234567"
+                        }
+                      ],
+                      "id": 437,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "ElementaryTypeNameExpression",
+                      "src": "142:7:12",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_uint256_$",
+                        "typeString": "type(uint256)"
+                      },
+                      "typeName": "uint256"
+                    },
+                    "id": 439,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "142:16:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "133:25:12"
+                },
+                {
+                  "externalReferences": [
+                    {
+                      "b": {
+                        "declaration": 436,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "314:1:12",
+                        "valueSize": 1
+                      }
+                    }
+                  ],
+                  "id": 441,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    let a := mload(0x40)\n    mstore(a, b)\n    mstore8(a, 4)\n    pop(msize())\n}",
+                  "src": "165:243:12"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 443,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 433,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "116:2:12"
+            },
+            "returnParameters": {
+              "id": 434,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "126:0:12"
+            },
+            "scope": 444,
+            "src": "96:317:12",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 445,
+        "src": "49:369:12"
+      }
+    ],
+    "src": "0:418:12"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/memory.sol",
+    "exportedSymbols": {
+      "Memory": [
+        444
+      ]
+    },
+    "id": 445,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 430,
+        "nodeType": "ImportDirective",
+        "scope": 445,
+        "sourceUnit": 55,
+        "src": "0:47:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 431,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "68:21:12",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 432,
+            "nodeType": "InheritanceSpecifier",
+            "src": "68:21:12"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 444,
+        "linearizedBaseContracts": [
+          444,
+          54
+        ],
+        "name": "Memory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 442,
+              "nodeType": "Block",
+              "src": "126:287:12",
+              "statements": [
+                {
+                  "assignments": [
+                    436
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 436,
+                      "name": "b",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 442,
+                      "src": "133:6:12",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 435,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "133:4:12",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 440,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "31323334353637",
+                        "id": 438,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "150:7:12",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_rational_1234567_by_1",
+                          "typeString": "int_const 1234567"
+                        },
+                        "value": "1234567"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_rational_1234567_by_1",
+                          "typeString": "int_const 1234567"
+                        }
+                      ],
+                      "id": 437,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "ElementaryTypeNameExpression",
+                      "src": "142:7:12",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_uint256_$",
+                        "typeString": "type(uint256)"
+                      },
+                      "typeName": "uint256"
+                    },
+                    "id": 439,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "142:16:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "133:25:12"
+                },
+                {
+                  "externalReferences": [
+                    {
+                      "b": {
+                        "declaration": 436,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "314:1:12",
+                        "valueSize": 1
+                      }
+                    }
+                  ],
+                  "id": 441,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    let a := mload(0x40)\n    mstore(a, b)\n    mstore8(a, 4)\n    pop(msize())\n}",
+                  "src": "165:243:12"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 443,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 433,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "116:2:12"
+            },
+            "returnParameters": {
+              "id": 434,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "126:0:12"
+            },
+            "scope": 444,
+            "src": "96:317:12",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 445,
+        "src": "49:369:12"
+      }
+    ],
+    "src": "0:418:12"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-06-21T17:50:59.036Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

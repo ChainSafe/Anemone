@@ -1,0 +1,27 @@
+{
+  "name": "attalus",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node_modules/.bin/ts-node index.ts",
+    "testOpcodes": "../solidity truffle test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "ethers": "^4.0.0-beta.14",
+    "web3": "github:ethereum/web3.js",
+    "web3-eth": "^1.0.0-beta.55",
+    "web3-eth-accounts": "^1.0.0-beta.55"
+  }
+}

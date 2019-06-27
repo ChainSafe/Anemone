@@ -1,0 +1,331 @@
+{
+  "contractName": "BooleanOperators",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_stop",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_revert",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_invalid",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "testOpcodes",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"testOpcodes\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_revert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_invalid\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/booleanOperators.sol\":\"BooleanOperators\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol\":{\"keccak256\":\"0x9a8001897ada7e0b3f948322b08b5f0d733c043570a445cf53ac23d58bf52dbc\",\"urls\":[\"bzzr://06097e06f5f60ea2e9b630e56d73436d7155fa659275ee0bac3fb6677cd991a3\"]},\"/home/stephanie/chainsafe/attalus/solidity/contracts/booleanOperators.sol\":{\"keccak256\":\"0x03fa6d7ce26a423aa3052066eb4ce0ffaf4e3d3ee8adea4e2cb3a8e7209df043\",\"urls\":[\"bzzr://cff4840d043280eaf8948e0297b2e0f2666223951d0a3fe1e1447db02e93e012\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060a28061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b6059606d565b005b6061606f565b005b60696074565b005b565b005b600080fd5bfefea165627a7a723058201a9ea18f99354c7cc02568533095b3b259e8ebc28ec8461981635835a0bfc15f0029",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b6059606d565b005b6061606f565b005b60696074565b005b565b005b600080fd5bfefea165627a7a723058201a9ea18f99354c7cc02568533095b3b259e8ebc28ec8461981635835a0bfc15f0029",
+  "sourceMap": "247:271:6:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;247:271:6;;;;;;;",
+  "deployedSourceMap": "247:271:6:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;247:271:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;303:212;;;:::i;:::-;;374:50:1;;;:::i;:::-;;252:58;;;:::i;:::-;;314:56;;;:::i;:::-;;303:212:6;493:17::o;374:50:1:-;414:6;252:58;304:1;301;294:12;314:56;357:9",
+  "source": "pragma solidity <0.6.0;\n\nimport \"./Abstracts/TestContractInterface.sol\";\n\n//if any of these fail ya'll are fucked :'(\n/*\n* this contract deals with all the arithmetic opcodes that when popped off the stack\n* return either the solution, 1 ,or 0\n*/\ncontract BooleanOperators is TestContractInterface {\n\n  function testOpcodes() public {\n\n     //not\n     assembly { pop( not(0x1f)) }\n\n     //and\n     assembly { pop(and(2,3)) }\n\n     //or\n     assembly { pop(or(3,3)) }\n\n     //xor\n     assembly { pop(xor(3,3)) }\n\n  }\n\n}",
+  "sourcePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/booleanOperators.sol",
+  "ast": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/booleanOperators.sol",
+    "exportedSymbols": {
+      "BooleanOperators": [
+        203
+      ]
+    },
+    "id": 204,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 191,
+        "literals": [
+          "solidity",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:6"
+      },
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 192,
+        "nodeType": "ImportDirective",
+        "scope": 204,
+        "sourceUnit": 55,
+        "src": "25:47:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 193,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "276:21:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 194,
+            "nodeType": "InheritanceSpecifier",
+            "src": "276:21:6"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 203,
+        "linearizedBaseContracts": [
+          203,
+          54
+        ],
+        "name": "BooleanOperators",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 201,
+              "nodeType": "Block",
+              "src": "333:182:6",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 197,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(not(0x1f))\n}",
+                  "src": "352:28:6"
+                },
+                {
+                  "externalReferences": [],
+                  "id": 198,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(and(2, 3))\n}",
+                  "src": "398:26:6"
+                },
+                {
+                  "externalReferences": [],
+                  "id": 199,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(or(3, 3))\n}",
+                  "src": "441:25:6"
+                },
+                {
+                  "externalReferences": [],
+                  "id": 200,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(xor(3, 3))\n}",
+                  "src": "484:26:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 202,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 195,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "323:2:6"
+            },
+            "returnParameters": {
+              "id": 196,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "333:0:6"
+            },
+            "scope": 203,
+            "src": "303:212:6",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 204,
+        "src": "247:271:6"
+      }
+    ],
+    "src": "0:518:6"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/booleanOperators.sol",
+    "exportedSymbols": {
+      "BooleanOperators": [
+        203
+      ]
+    },
+    "id": 204,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 191,
+        "literals": [
+          "solidity",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:6"
+      },
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 192,
+        "nodeType": "ImportDirective",
+        "scope": 204,
+        "sourceUnit": 55,
+        "src": "25:47:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 193,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "276:21:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 194,
+            "nodeType": "InheritanceSpecifier",
+            "src": "276:21:6"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 203,
+        "linearizedBaseContracts": [
+          203,
+          54
+        ],
+        "name": "BooleanOperators",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 201,
+              "nodeType": "Block",
+              "src": "333:182:6",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 197,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(not(0x1f))\n}",
+                  "src": "352:28:6"
+                },
+                {
+                  "externalReferences": [],
+                  "id": 198,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(and(2, 3))\n}",
+                  "src": "398:26:6"
+                },
+                {
+                  "externalReferences": [],
+                  "id": 199,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(or(3, 3))\n}",
+                  "src": "441:25:6"
+                },
+                {
+                  "externalReferences": [],
+                  "id": 200,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(xor(3, 3))\n}",
+                  "src": "484:26:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 202,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 195,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "323:2:6"
+            },
+            "returnParameters": {
+              "id": 196,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "333:0:6"
+            },
+            "scope": 203,
+            "src": "303:212:6",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 204,
+        "src": "247:271:6"
+      }
+    ],
+    "src": "0:518:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-06-21T17:50:59.031Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

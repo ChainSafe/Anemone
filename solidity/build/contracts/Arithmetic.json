@@ -1,0 +1,289 @@
+{
+  "contractName": "Arithmetic",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_stop",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_revert",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_invalid",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "testOpcodes",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"testOpcodes\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_revert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_invalid\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/arithmetic.sol\":\"Arithmetic\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol\":{\"keccak256\":\"0x9a8001897ada7e0b3f948322b08b5f0d733c043570a445cf53ac23d58bf52dbc\",\"urls\":[\"bzzr://06097e06f5f60ea2e9b630e56d73436d7155fa659275ee0bac3fb6677cd991a3\"]},\"/home/stephanie/chainsafe/attalus/solidity/contracts/arithmetic.sol\":{\"keccak256\":\"0x4c8d6b8f5b11ecd5c8435a6beca41f4fe80778d41d2ef38b60a63bfd28ce72cc\",\"urls\":[\"bzzr://550b0ec90ec8b68a9e82ccfe42849eb379f0d379cbb20ec283f815dd5eba7fd7\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060a28061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b6059606d565b005b6061606f565b005b60696074565b005b565b005b600080fd5bfefea165627a7a72305820eebfb4492e29d09afe7cc97b5eea280d26d47b00ae3d225a34f95339a03f41010029",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b6059606d565b005b6061606f565b005b60696074565b005b565b005b600080fd5bfefea165627a7a72305820eebfb4492e29d09afe7cc97b5eea280d26d47b00ae3d225a34f95339a03f41010029",
+  "sourceMap": "247:682:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;247:682:4;;;;;;;",
+  "deployedSourceMap": "247:682:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;247:682:4;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;297:629;;;:::i;:::-;;374:50:1;;;:::i;:::-;;252:58;;;:::i;:::-;;314:56;;;:::i;:::-;;297:629:4;342:579::o;374:50:1:-;414:6;252:58;304:1;301;294:12;314:56;357:9",
+  "source": "pragma solidity <0.6.0;\n\nimport \"./Abstracts/TestContractInterface.sol\";\n\n//if any of these fail ya'll are fucked :'(\n/*\n* this contract deals with all the arithmetic opcodes that when popped off the stack\n* return either the solution, 1 ,or 0\n*/\ncontract Arithmetic is TestContractInterface {\n\n  function testOpcodes() public {\n\n    assembly{\n      //addition\n      pop(add(2,3))\n\n      //subtraction\n      pop(sub(3,1))\n\n      //multiplication\n      pop(mul(2,2))\n\n      //division\n      pop(div(4,2))\n\n      //division for signed numbers in two's complement\n      pop(sdiv(4,2))\n\n      //modulus\n      pop(mod(3,2))\n\n      //modulus for signed numbers in two's complement\n      pop(smod(3,2))\n\n      //x to the power of y\n      pop(exp(2,3))\n\n      //(x + y) % m with arbitrary precision arithmetics\n      pop(addmod(5, 3, 4))\n\n      //(x * y) % m with arbitrary precision arithmetics\n      pop(mulmod(3, 2, 4))\n\n    }\n\n  }\n\n}\n\n",
+  "sourcePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/arithmetic.sol",
+  "ast": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/arithmetic.sol",
+    "exportedSymbols": {
+      "Arithmetic": [
+        179
+      ]
+    },
+    "id": 180,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 170,
+        "literals": [
+          "solidity",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:4"
+      },
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 171,
+        "nodeType": "ImportDirective",
+        "scope": 180,
+        "sourceUnit": 55,
+        "src": "25:47:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 172,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "270:21:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 173,
+            "nodeType": "InheritanceSpecifier",
+            "src": "270:21:4"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 179,
+        "linearizedBaseContracts": [
+          179,
+          54
+        ],
+        "name": "Arithmetic",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 177,
+              "nodeType": "Block",
+              "src": "327:599:4",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 176,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(add(2, 3))\n    pop(sub(3, 1))\n    pop(mul(2, 2))\n    pop(div(4, 2))\n    pop(sdiv(4, 2))\n    pop(mod(3, 2))\n    pop(smod(3, 2))\n    pop(exp(2, 3))\n    pop(addmod(5, 3, 4))\n    pop(mulmod(3, 2, 4))\n}",
+                  "src": "334:587:4"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 178,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 174,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "317:2:4"
+            },
+            "returnParameters": {
+              "id": 175,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "327:0:4"
+            },
+            "scope": 179,
+            "src": "297:629:4",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 180,
+        "src": "247:682:4"
+      }
+    ],
+    "src": "0:931:4"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/arithmetic.sol",
+    "exportedSymbols": {
+      "Arithmetic": [
+        179
+      ]
+    },
+    "id": 180,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 170,
+        "literals": [
+          "solidity",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:4"
+      },
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 171,
+        "nodeType": "ImportDirective",
+        "scope": 180,
+        "sourceUnit": 55,
+        "src": "25:47:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 172,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "270:21:4",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 173,
+            "nodeType": "InheritanceSpecifier",
+            "src": "270:21:4"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 179,
+        "linearizedBaseContracts": [
+          179,
+          54
+        ],
+        "name": "Arithmetic",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 177,
+              "nodeType": "Block",
+              "src": "327:599:4",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 176,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(add(2, 3))\n    pop(sub(3, 1))\n    pop(mul(2, 2))\n    pop(div(4, 2))\n    pop(sdiv(4, 2))\n    pop(mod(3, 2))\n    pop(smod(3, 2))\n    pop(exp(2, 3))\n    pop(addmod(5, 3, 4))\n    pop(mulmod(3, 2, 4))\n}",
+                  "src": "334:587:4"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 178,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 174,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "317:2:4"
+            },
+            "returnParameters": {
+              "id": 175,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "327:0:4"
+            },
+            "scope": 179,
+            "src": "297:629:4",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 180,
+        "src": "247:682:4"
+      }
+    ],
+    "src": "0:931:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-06-21T18:00:59.126Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

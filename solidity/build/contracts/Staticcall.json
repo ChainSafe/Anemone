@@ -1,0 +1,267 @@
+{
+  "contractName": "Staticcall",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_stop",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_revert",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "test_invalid",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "testOpcodes",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"testOpcodes\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_revert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"test_invalid\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/staticcall.sol\":\"Staticcall\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol\":{\"keccak256\":\"0x9a8001897ada7e0b3f948322b08b5f0d733c043570a445cf53ac23d58bf52dbc\",\"urls\":[\"bzzr://06097e06f5f60ea2e9b630e56d73436d7155fa659275ee0bac3fb6677cd991a3\"]},\"/home/stephanie/chainsafe/attalus/solidity/contracts/staticcall.sol\":{\"keccak256\":\"0x6e6d2c79a70f4adaac93fbf8a2de76e3a82e2e6c1d940b664eed853a200e8608\",\"urls\":[\"bzzr://6d2b22ff3aa5c12071e82a6af3e3fc0bbb993e938a3539dd47fa0dc6b5e38a91\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060af8061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b6059607a565b005b6061607c565b005b60696081565b005b6000806000806023611388fa50565b005b600080fd5bfefea165627a7a723058200063a6854c0f344413bf3921744c162643c9fa5271a99e9f160e837fa03543d00029",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060465760003560e01c8063391521f414604b57806355313dea1460535780636d3d141614605b578063b9d1e5aa146063575b600080fd5b6051606b565b005b6059607a565b005b6061607c565b005b60696081565b005b6000806000806023611388fa50565b005b600080fd5bfefea165627a7a723058200063a6854c0f344413bf3921744c162643c9fa5271a99e9f160e837fa03543d00029",
+  "sourceMap": "49:460:15:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;49:460:15;;;;;;;",
+  "deployedSourceMap": "49:460:15:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;49:460:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;100:404;;;:::i;:::-;;374:50:1;;;:::i;:::-;;252:58;;;:::i;:::-;;314:56;;;:::i;:::-;;100:404:15;449:1;403;360;318;278:4;242;206:275;202:280;145:354::o;374:50:1:-;414:6;252:58;304:1;301;294:12;314:56;357:9",
+  "source": "import \"./Abstracts/TestContractInterface.sol\";\n\ncontract Staticcall is TestContractInterface {\n\n\n  function testOpcodes() public {\n\n    assembly{\n\n\n        //expect this to pop 1 off the stack\n        pop(staticcall(\n                        5000, //gas\n                        0x23, //address\n                        0   , //argoffset\n                        0   , //argslength\n                        0   , //return offset\n                        0     //return length\n\n        ))\n\n        \n\n    }\n\n  }\n  \n}",
+  "sourcePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/staticcall.sol",
+  "ast": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/staticcall.sol",
+    "exportedSymbols": {
+      "Staticcall": [
+        474
+      ]
+    },
+    "id": 475,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 466,
+        "nodeType": "ImportDirective",
+        "scope": 475,
+        "sourceUnit": 55,
+        "src": "0:47:15",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 467,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "72:21:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 468,
+            "nodeType": "InheritanceSpecifier",
+            "src": "72:21:15"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 474,
+        "linearizedBaseContracts": [
+          474,
+          54
+        ],
+        "name": "Staticcall",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 472,
+              "nodeType": "Block",
+              "src": "130:374:15",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 471,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(staticcall(5000, 0x23, 0, 0, 0, 0))\n}",
+                  "src": "137:362:15"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 473,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 469,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "120:2:15"
+            },
+            "returnParameters": {
+              "id": 470,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "130:0:15"
+            },
+            "scope": 474,
+            "src": "100:404:15",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 475,
+        "src": "49:460:15"
+      }
+    ],
+    "src": "0:509:15"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/staticcall.sol",
+    "exportedSymbols": {
+      "Staticcall": [
+        474
+      ]
+    },
+    "id": 475,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "absolutePath": "/home/stephanie/chainsafe/attalus/solidity/contracts/Abstracts/TestContractInterface.sol",
+        "file": "./Abstracts/TestContractInterface.sol",
+        "id": 466,
+        "nodeType": "ImportDirective",
+        "scope": 475,
+        "sourceUnit": 55,
+        "src": "0:47:15",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 467,
+              "name": "TestContractInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 54,
+              "src": "72:21:15",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TestContractInterface_$54",
+                "typeString": "contract TestContractInterface"
+              }
+            },
+            "id": 468,
+            "nodeType": "InheritanceSpecifier",
+            "src": "72:21:15"
+          }
+        ],
+        "contractDependencies": [
+          54
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 474,
+        "linearizedBaseContracts": [
+          474,
+          54
+        ],
+        "name": "Staticcall",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 472,
+              "nodeType": "Block",
+              "src": "130:374:15",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 471,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    pop(staticcall(5000, 0x23, 0, 0, 0, 0))\n}",
+                  "src": "137:362:15"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 473,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testOpcodes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 469,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "120:2:15"
+            },
+            "returnParameters": {
+              "id": 470,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "130:0:15"
+            },
+            "scope": 474,
+            "src": "100:404:15",
+            "stateMutability": "nonpayable",
+            "superFunction": 38,
+            "visibility": "public"
+          }
+        ],
+        "scope": 475,
+        "src": "49:460:15"
+      }
+    ],
+    "src": "0:509:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-06-21T17:50:59.038Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
