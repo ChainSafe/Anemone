@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node_modules/.bin/ts-node index.ts",
-    "testOpcodes": "../solidity truffle test"
+    "start": "node_modules/.bin/ts-node index.ts"
   },
   "author": "",
   "license": "ISC",
