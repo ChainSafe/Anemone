@@ -17,28 +17,26 @@ const Main = async () => {
 
   // Setup wallets
   const mainWallet = new ethers.Wallet(config.funderPrivateKey, provider);
-    // const wallets = await generateWallets(numWallets);
+  const wallets = await generateWallets(numWallets);
 
-    // // Send fuel to subwallets
-    // const txHashes: Array<string> = await fundWallets(wallets, mainWallet);
+  // Send fuel to subwallets
+  const txHashes: Array<string> = await fundWallets(wallets, mainWallet);
 
-    // await TransactionsMined(txHashes, 500, provider);
+  await TransactionsMined(txHashes, 500, provider);
 
-    // //create and send the transactions
-    // await batchTxs(wallets, provider);
+  //create and send the transactions
+  await batchTxs(wallets, provider);
 
-    //compile contracts
-    compileContracts();
+  //compile contracts
+  compileContracts();
 
-    //deploy contracts from mainWallet
-    const deployedContracts = await deployContracts(mainWallet);
+  //deploy contracts from mainWallet
+  const deployedContracts = await deployContracts(mainWallet);
     
-    console.log(deployedContracts);
+  console.log(deployedContracts);
     
-    //wait for transactions to be mined
-    await TransactionsMined(Object.keys(deployContracts), 500, provider)
-    
-
+  //wait for transactions to be mined
+  await TransactionsMined(Object.keys(deployContracts), 500, provider);  
 
 };
   
