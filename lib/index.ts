@@ -2,7 +2,7 @@ const ethers = require("ethers");
 
 // Relative Imports
 import config from "../config";
-import {connect, generateWallets, fundWallets, batchTxs} from "./attalus";
+import {connect, generateWallets, fundWallets, batchTxs, testOpcodes} from "./attalus";
 import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
 import {compileContracts, deployContracts} from "./utilities/buildContracts";
@@ -27,16 +27,25 @@ const Main = async () => {
   //create and send the transactions
   await batchTxs(wallets, provider);
 
-  //compile contracts
-  compileContracts();
+  if (config.testOpcodes){
+    //compile contracts
+    compileContracts();
 
-  //deploy contracts from mainWallet
-  const deployedContracts = await deployContracts(mainWallet);
+    //deploy contracts from mainWallet
+    const deployedContracts = await deployContracts(mainWallet);
     
-  console.log(deployedContracts);
+    console.log(deployedContracts);
     
-  //wait for transactions to be mined
-  await TransactionsMined(Object.keys(deployContracts), 500, provider);  
+    //wait for transactions to be mined
+    await TransactionsMined(Object.keys(deployContracts), 500, provider);  
+
+    var contractAddresses = Object.keys(deployedContracts).map(function(e) {
+      return deployedContracts[e]
+    });
+
+    //call testOpcodes for each deployed contract
+    await testOpcodes(provider, contractAddresses, mainWallet);
+  }
 
 };
   

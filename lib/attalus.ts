@@ -91,7 +91,13 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
 };
 
 
-const deployContracts = async () => {
+const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<any>, wallet) => {
+  for (let i = 0; i< contractAddresses.length; i++){
+    const contract = new ethers.Contract(contractAddresses[i], config.abi, provider);
+    let contractWithSigner = contract.connect(wallet);
+    console.log(`called testOpcodes for contract at: ${contractAddresses[i]}`)
+    await contractWithSigner.testOpcodes();
+  }
   
 
 }
@@ -113,5 +119,6 @@ export {
   connect,
   generateWallets,
   fundWallets,
-  batchTxs
+  batchTxs,
+  testOpcodes
 }

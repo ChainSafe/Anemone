@@ -21,7 +21,7 @@ const config: any = {
     numWallets: "5",
 
     //set true to deploy and test the smart contracts containing each opcode
-    testOpCodes: true,
+    testOpCodes: false,
 
     //value (in wei) to send in each transation
     amount: "0",    
@@ -37,6 +37,15 @@ const config: any = {
 
     //chainId
     chainId: 1337,
+
+    //abi for all the contracts
+    abi: [
+        "modifier Owner (address _owner)",
+        "function testOpcodes()",
+        "function test_revert()",
+        "function test_invalid()",
+        "function test_stop()"
+    ],
 
 };
 
