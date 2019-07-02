@@ -15,29 +15,28 @@ const config: any = {
     rpcUrl: "http://localhost:8545",
     
     //number of transactions to generate and throw
-    numTransactions: "2000",
+    numTransactions: "200",
 
     //number of wallets that will be created to throw/recieve transactions
-    numWallets: "100",
+    numWallets: "5",
 
     //set true to deploy and test the smart contracts containing each opcode
-    //consider 
-    testOpCodes: false,
+    testOpCodes: true,
 
     //value (in wei) to send in each transation
-    amount: "1000",
+    amount: "0",    
 
     //gas price in gwei for each transaction generated
     gasPrice: "40",
 
     //max gas to set for each transaction generated
-    maxGas: "2000000",
+    maxGas: "210000",
 
     //private key of wallet that will fund the other sender wallets
-    funderPrivateKey: "",
+    funderPrivateKey: "f012dbcd3fb3c0d1e76d55bf4a5360f0eff0923e5600dd75be0441453767e2f2",
 
     //chainId
-    chainId:
+    chainId: 1337,
 
 };
 

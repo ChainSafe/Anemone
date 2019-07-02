@@ -1,4 +1,4 @@
-import { JsonRpcProvider } from "ethers/providers";
+import {JsonRpcProvider} from "ethers/providers";
 
 const TransactionsMined = async (
   txHashes: Array<string>,

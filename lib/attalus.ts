@@ -8,6 +8,10 @@ const connect = (url: string): JsonRpcProvider => {
   return new ethers.providers.JsonRpcProvider(url, "");
 };
 
+/*
+*
+*/
+
 const generateWallets = async (num: number) => {
   const wallets = [];
   for (let i: number = 0; i < num; i++) {
@@ -74,7 +78,8 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
         to: dest,
         gasLimit: bn(config.maxGas),
         gasPrice: parseGwei(config.gasPrice),
-        chainId: config.chainId
+        chainId: config.chainId,
+        data: "0x3039"
       };
       nonce += 1;
       sender.sendTransaction(tx);
@@ -85,6 +90,17 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
   return txs;
 };
 
+
+const deployContracts = async () => {
+  
+
+}
+
+
+/*
+* Helper func
+*
+*/
 const bn = (num: any) => {
   return ethers.utils.bigNumberify(num);
 }
