@@ -92,12 +92,30 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
 
 
 const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<any>, wallet) => {
-  for (let i = 0; i< contractAddresses.length; i++){
-    const contract = new ethers.Contract(contractAddresses[i], config.abi, provider);
-    let contractWithSigner = contract.connect(wallet);
-    console.log(`called testOpcodes for contract at: ${contractAddresses[i]}`)
-    await contractWithSigner.testOpcodes();
-  }
+
+  let nonce = await wallet.getTransactionCount();
+  let txResponses = [];
+
+  "calling testOpcodes..."
+
+  for (let i: number = 0; i < contractAddresses.length; i++){
+        const tx = {
+            nonce: nonce,
+            to: contractAddresses[i],
+            value: 0,
+            gasLimit: 210000,
+            gasPrice: 40000000000,
+            chainId: config.chainId,
+            data: "0x391521f4"
+        };
+        const txResponse = await wallet.sendTransaction(tx);s
+        txResponses.push(txResponse.hash)
+        nonce += 1;
+    }
+
+    return txResponses;
+
+
   
 
 }

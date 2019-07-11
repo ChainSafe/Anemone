@@ -1,3 +1,6 @@
+pragma solidity <0.6.0;
+
+
 import "./Abstracts/CalledContract.sol";
 import "./Abstracts/TestContractInterface.sol";
 
@@ -26,10 +29,9 @@ contract DelegateCall is CalledContract, TestContractInterface {
          mstore(0x40,add(ptr,0x64))   //Reset free pointer before the function call so we can actually use it!
                                       //New free pointer position after the output values of the called function.
 
-         let success := call(
+         let success := delegatecall(
                          5000,         //5k gSas
                          contractAddr, //To addr
-                         0,            //No wei passed
                          ptr,          //Inputs are at location of ptr
                          0x44,         //Inputs size two padded, so 68 bytes
                          ptr,          //Store output over input

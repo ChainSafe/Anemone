@@ -1,3 +1,5 @@
+pragma solidity <0.6.0;
+
 import "./Abstracts/TestContractInterface.sol";
 
 contract Staticcall is TestContractInterface {
@@ -6,9 +8,6 @@ contract Staticcall is TestContractInterface {
   function testOpcodes() public {
 
     assembly{
-
-
-        //expect this to pop 1 off the stack
         pop(staticcall(
                         5000, //gas
                         0x23, //address
@@ -22,7 +21,7 @@ contract Staticcall is TestContractInterface {
         
 
     }
-
+  
   }
   
 }

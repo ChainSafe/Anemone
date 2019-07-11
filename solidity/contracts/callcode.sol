@@ -1,3 +1,5 @@
+pragma solidity <0.6.0;
+
 import "./Abstracts/CalledContract.sol";
 import "./Abstracts/TestContractInterface.sol";
 
@@ -11,7 +13,6 @@ contract Call is CalledContract, TestContractInterface {
 
   function testOpcodes() public {
 
-    //thank u stack overflow
     //https://ethereum.stackexchange.com/questions/67980/solidity-assembly-function-call-parameter-alignment?noredirect=1&lq=1
 
     address contractAddr = address(calledContract);
@@ -26,7 +27,7 @@ contract Call is CalledContract, TestContractInterface {
          mstore(0x40,add(ptr,0x64))   //Reset free pointer before the function call so we can actually use it!
                                       //New free pointer position after the output values of the called function.
 
-         let success := call(
+         let success := callcode(
                          5000,         //5k gSas
                          contractAddr, //To addr
                          0,            //No wei passed

@@ -1,3 +1,5 @@
+pragma solidity <0.6.0;
+
 import "./Abstracts/CalledContract.sol";
 import "./Abstracts/TestContractInterface.sol";
 

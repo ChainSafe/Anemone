@@ -14,14 +14,16 @@ const config: any = {
     //Url to node open for RPC, defaults to default localhost port
     rpcUrl: "http://localhost:8545",
     
+    //rpcUrl: "https://wbm-stephanie.boxes.whiteblock.io:5001/rpc",
+
     //number of transactions to generate and throw
-    numTransactions: "200",
+    numTransactions: "1000",
 
     //number of wallets that will be created to throw/recieve transactions
-    numWallets: "5",
+    numWallets: "20",
 
     //set true to deploy and test the smart contracts containing each opcode
-    testOpCodes: false,
+    testOpCodes: true,
 
     //value (in wei) to send in each transation
     amount: "0",    
@@ -35,17 +37,10 @@ const config: any = {
     //private key of wallet that will fund the other sender wallets
     funderPrivateKey: "f012dbcd3fb3c0d1e76d55bf4a5360f0eff0923e5600dd75be0441453767e2f2",
 
+    //funderPrivateKey: "ab9fbe07ae0857367c954880ab454bd37074a381f642465f62bbee5e242edc8a",
+
     //chainId
     chainId: 1337,
-
-    //abi for all the contracts
-    abi: [
-        "modifier Owner (address _owner)",
-        "function testOpcodes()",
-        "function test_revert()",
-        "function test_invalid()",
-        "function test_stop()"
-    ],
 
 };
 

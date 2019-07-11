@@ -2,17 +2,12 @@ pragma solidity <0.6.0;
 
 import "./Abstracts/TestContractInterface.sol";
 
-contract Sha3 is TestContractInterface {
+contract Create is TestContractInterface {
 
 
   function testOpcodes() public {
 
-    assembly{
-
-    pop(calldataload(0))
-
-    }
+    assembly { pop(create(10, 0x123, 32)) }
 
   }
-
 }

@@ -2,6 +2,12 @@ pragma solidity <0.6.0;
 
 contract TestContractInterface {
 
+  address public owner;
+
+  constructor() internal {
+    owner = msg.sender;
+  }
+
   modifier Owner (address _owner) {
     require(msg.sender == _owner);
     _;

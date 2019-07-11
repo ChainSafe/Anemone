@@ -20,32 +20,42 @@ const Main = async () => {
   const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
-  const txHashes: Array<string> = await fundWallets(wallets, mainWallet);
+  // const txHashes: Array<string> = await fundWallets(wallets, mainWallet);
 
-  await TransactionsMined(txHashes, 500, provider);
+  // await TransactionsMined(txHashes, 500, provider);
 
-  //create and send the transactions
-  await batchTxs(wallets, provider);
+  // //create and send the transactions
+  // await batchTxs(wallets, provider);
 
-  if (config.testOpcodes){
-    //compile contracts
-    compileContracts();
+  //if (config.testOpcodes){
 
     //deploy contracts from mainWallet
     const deployedContracts = await deployContracts(mainWallet);
     
-    console.log(deployedContracts);
-    
     //wait for transactions to be mined
-    await TransactionsMined(Object.keys(deployContracts), 500, provider);  
+    await TransactionsMined(deployedContracts, 500, provider);  
 
-    var contractAddresses = Object.keys(deployedContracts).map(function(e) {
-      return deployedContracts[e]
-    });
+    //work around since the ethers transactionresponse or transactionreciept object both don't take creates :'(
+    let addresses = []
+    for (let i = 0; i< deployedContracts.length; i++){
+      let h = deployedContracts[i];
+      let a = await provider.getTransaction(h);
+      addresses.push(a["creates"]);
+    }
 
     //call testOpcodes for each deployed contract
-    await testOpcodes(provider, contractAddresses, mainWallet);
-  }
+    let responses = await testOpcodes(provider, addresses, mainWallet);
+
+    //just to make sure everything ran properly
+    await TransactionsMined(responses, 500, provider);
+    for (let i = 0; i< responses.length; i++){
+      let h = responses[i];
+      let a = await provider.getTransaction(h);
+      console.log(a)
+    }
+
+
+  //}
 
 };
   

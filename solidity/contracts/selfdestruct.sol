@@ -2,17 +2,14 @@ pragma solidity <0.6.0;
 
 import "./Abstracts/TestContractInterface.sol";
 
-contract Sha3 is TestContractInterface {
+contract SelfDestruct is TestContractInterface {
 
 
   function testOpcodes() public {
-
-    assembly{
-
-    pop(calldataload(0))
-
-    }
+     
+     assembly { selfdestruct(0x02) }
 
   }
-
-}
+  
+}     
+     

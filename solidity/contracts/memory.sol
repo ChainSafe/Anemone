@@ -1,3 +1,5 @@
+pragma solidity <0.6.0;
+
 import "./Abstracts/TestContractInterface.sol";
 
 contract Memory is TestContractInterface {
