@@ -102,9 +102,8 @@ const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<an
 
   let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
-
-  "calling testOpcodes..."
-
+  console.log("calling testOpcodes...");
+	
   for (let i: number = 0; i < contractAddresses.length; i++){
         const tx = {
             nonce: nonce,
