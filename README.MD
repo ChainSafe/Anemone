@@ -20,7 +20,7 @@ Attalus is a testing tool that broadcasts batches of transactions and tests opco
 
    **funderPrivateKey:** private key of wallet that will fund the other sender wallet and deploy opcode contracts, **string**
 
-   **chainId:** chainId, currently 1337
+   **chainId:** chainId, **num**
    
    **Please ensure that the account associated with the private key provided is sufficiently funded**
 
