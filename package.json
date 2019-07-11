@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node_modules/.bin/ts-node index.ts"
+    "build": "babel src -x .ts -d lib --source-maps",
+    "build:docs": "typedoc --exclude index.ts --out docs src",
+    "check-types": "tsc --noEmit --incremental",
+    "lint": "eslint --ext .ts src",
+    "lint-fix": "eslint --ext .ts src --fix",
+    "start": "yarn build && node ./lib/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -12,10 +17,13 @@
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.5",
     "chai": "^4.1.2",
+    "eslint": "5.14.1",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "ts-node": "^7.0.1",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0"
   },
   "dependencies": {
     "ethers": "^4.0.0-beta.14"
