@@ -1,8 +1,7 @@
-import {Wallet} from "ethers";
-
-const ethers = require("ethers");
+import ethers, {Wallet} from "ethers";
 import {JsonRpcProvider} from "ethers/providers";
-import config from "../config";
+
+import config from "./config";
 import {bn, parseGwei} from "./utilities/conversion";
 
 const connect = (url: string): JsonRpcProvider => {
@@ -15,7 +14,7 @@ const connect = (url: string): JsonRpcProvider => {
 const generateWallets = async (num: number) => {
   const wallets = [];
   for (let i = 0; i < num; i++) {
-    const wallet = new ethers.Wallet.createRandom();
+    const wallet: Wallet = ethers.Wallet.createRandom();
     wallets.push(wallet);
     const address = await wallet.getAddress();
     console.log(`Created wallet with address ${address}`);
@@ -98,7 +97,7 @@ const batchTxs = async (wallets: any[], provider: JsonRpcProvider) => {
 /*
 * Broadcasts transactions from mainWallet to provider to call testOpcodes() at all known deployed contract addresses
 */
-const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: any[], mainWallet) => {
+const testOpcodes = async (provider: JsonRpcProvider, contractAddresses: any[], mainWallet) => {
 
   let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
@@ -121,10 +120,6 @@ const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: any[], m
   }
 
   return txResponses;
-
-
-  
-
 };
 
 export {

@@ -1,13 +1,13 @@
-const ethers = require("ethers");
+import ethers from "ethers";
 
 // Relative Imports
-import config from "../config";
+import config from "./config";
 import {connect, generateWallets, fundWallets, batchTxs, testOpcodes} from "./attalus";
 import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
 import {deployContracts} from "./utilities/buildContracts";
 
-const Main = async () => {
+export const Main = async () => {
   // Provider
   const provider: JsonRpcProvider = connect(config.rpcUrl);
 
@@ -58,7 +58,7 @@ const Main = async () => {
   }
 
 };
-  
 
-
-export default Main;
+Main()
+  .then(() => { console.log("attalus executed without errors!");})
+  .catch((err: any) => { console.log("attalus executed with errors: ", err);});
