@@ -25,9 +25,9 @@ Attalus is a testing tool that broadcasts batches of transactions and tests opco
    **Please ensure that the account associated with the private key provided is sufficiently funded**
 
 ## Set-up
-* run `npm install`
+* run `yarn install`
 
 ## Start
 * Must have rpc port exposed on running geth instance.
 * Must ensure the account associated with the private key provided is sufficiently funded
-* run `npm start`
+* run `yarn start`
