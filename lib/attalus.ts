@@ -3,15 +3,15 @@ import {Wallet} from "ethers";
 const ethers = require("ethers");
 import {JsonRpcProvider} from "ethers/providers";
 import config from "../config"
+import {bn, parseGwei} from "./utilities/conversion";
 
 const connect = (url: string): JsonRpcProvider => {
   return new ethers.providers.JsonRpcProvider(url, "");
 };
 
 /*
-*
+* Generates num wallets
 */
-
 const generateWallets = async (num: number) => {
   const wallets = [];
   for (let i: number = 0; i < num; i++) {
@@ -25,6 +25,10 @@ const generateWallets = async (num: number) => {
   return wallets;
 };
 
+
+/*
+* Funds wallets in array wallets with mainWallet
+*/
 const fundWallets = async (wallets: Array<any>, mainWallet: any): Promise<string[]> => {
   //send each wa]llet the max possible gas amount for each transaction + the amount of the transaction as specified in config
   const numTransactions = bn(config.numTransactions/config.numWallets);
@@ -56,10 +60,12 @@ const fundWallets = async (wallets: Array<any>, mainWallet: any): Promise<string
 
 }
 
-
+/*
+* Creates and broadcasts batches of transactions from wallets in array wallets to provider
+*/
 const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
   //we want to split the transactions equally among the wallets to be sent from.
-  const numTransactions = bn(Math.ceil(config.numTransactions/config.numWallets));
+  const numTransactions = Math.ceil(config.numTransactions/config.numWallets);
   const amount = bn(config.amount);
   const txs: any = [];
   const numWallets = wallets.length; 
@@ -79,7 +85,6 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
         gasLimit: bn(config.maxGas),
         gasPrice: parseGwei(config.gasPrice),
         chainId: config.chainId,
-        data: "0x3039"
       };
       nonce += 1;
       sender.sendTransaction(tx);
@@ -90,10 +95,12 @@ const batchTxs = async (wallets: Array<any>, provider: JsonRpcProvider) => {
   return txs;
 };
 
+/*
+* Broadcasts transactions from mainWallet to provider to call testOpcodes() at all known deployed contract addresses
+*/
+const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<any>, mainWallet) => {
 
-const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<any>, wallet) => {
-
-  let nonce = await wallet.getTransactionCount();
+  let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
 
   "calling testOpcodes..."
@@ -103,12 +110,13 @@ const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<an
             nonce: nonce,
             to: contractAddresses[i],
             value: 0,
-            gasLimit: 210000,
-            gasPrice: 40000000000,
+            gasLimit: bn(config.maxGas),
+            gasPrice: parseGwei(config.gasPrice),
             chainId: config.chainId,
+            //ABI for all contracts is the same, testOpcodes is 0x391521f4
             data: "0x391521f4"
         };
-        const txResponse = await wallet.sendTransaction(tx);s
+        const txResponse = await mainWallet.sendTransaction(tx);
         txResponses.push(txResponse.hash)
         nonce += 1;
     }
@@ -118,19 +126,6 @@ const testOpcodes= async (provider: JsonRpcProvider, contractAddresses: Array<an
 
   
 
-}
-
-
-/*
-* Helper func
-*
-*/
-const bn = (num: any) => {
-  return ethers.utils.bigNumberify(num);
-}
-
-const parseGwei = (gwei: string) => {
-  return ethers.utils.parseUnits(gwei, "gwei")
 }
 
 export {

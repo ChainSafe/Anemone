@@ -1,5 +1,8 @@
 import {JsonRpcProvider} from "ethers/providers";
 
+/*
+* calls transactionRecieptExist for every transaction hash in array txHashes
+*/
 const TransactionsMined = async (
   txHashes: Array<string>,
   interval: number,
@@ -21,6 +24,10 @@ const TransactionsMined = async (
   });
 };
 
+/*
+* Continuously polls provider every interval miliseconds until the transaction
+* with transaction hash txHash is mined.
+*/
 const transactionRecieptExist = async (
   txHash: string,
   interval: number,

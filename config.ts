@@ -13,8 +13,6 @@ const config: any = {
 
     //Url to node open for RPC, defaults to default localhost port
     rpcUrl: "http://localhost:8545",
-    
-    //rpcUrl: "https://wbm-stephanie.boxes.whiteblock.io:5001/rpc",
 
     //number of transactions to generate and throw
     numTransactions: "1000",
@@ -26,7 +24,7 @@ const config: any = {
     testOpCodes: true,
 
     //value (in wei) to send in each transation
-    amount: "0",    
+    amount: "10",    
 
     //gas price in gwei for each transaction generated
     gasPrice: "40",
@@ -37,8 +35,7 @@ const config: any = {
     //private key of wallet that will fund the other sender wallets
     funderPrivateKey: "",
 
-
-    //chainId
+    //chainId, currently 1337 for kensignton testnet
     chainId: 1337,
 
 };
