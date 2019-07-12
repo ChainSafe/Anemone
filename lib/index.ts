@@ -1,13 +1,13 @@
-import ethers from "ethers";
+const ethers = require("ethers");
 
 // Relative Imports
-import config from "./config";
+import config from "../config";
 import {connect, generateWallets, fundWallets, batchTxs, testOpcodes} from "./attalus";
 import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
-import {deployContracts} from "./utilities/buildContracts";
+import { deployContracts} from "./utilities/buildContracts";
 
-export const Main = async () => {
+const Main = async () => {
   // Provider
   const provider: JsonRpcProvider = connect(config.rpcUrl);
 
@@ -19,7 +19,7 @@ export const Main = async () => {
   const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
-  const txHashes: string[] = await fundWallets(wallets, mainWallet);
+  const txHashes: Array<string> = await fundWallets(wallets, mainWallet);
 
   // Wait for Transactions fueling subwallets to be mined
   await TransactionsMined(txHashes, 500, provider);
@@ -36,7 +36,7 @@ export const Main = async () => {
     await TransactionsMined(deployedContracts, 500, provider);  
 
     //workaround for transactionresponse objects not having value "create"
-    let addresses = [];
+    let addresses = []
     for (let i = 0; i< deployedContracts.length; i++){
       let h = deployedContracts[i];
       let a = await provider.getTransaction(h);
@@ -52,13 +52,13 @@ export const Main = async () => {
     for (let i = 0; i< responses.length; i++){
       let h = responses[i];
       let a = await provider.getTransaction(h);
-      console.log(a);
+      console.log(a)
     }
 
   }
 
 };
+  
 
-Main()
-  .then(() => { console.log("attalus executed without errors!");})
-  .catch((err: any) => { console.log("attalus executed with errors: ", err);});
+
+export default Main;
