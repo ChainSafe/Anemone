@@ -4,19 +4,19 @@ import {JsonRpcProvider} from "ethers/providers";
 * calls transactionRecieptExist for every transaction hash in array txHashes
 */
 const TransactionsMined = async (
-  txHashes: Array<string>,
+  txHashes: string[],
   interval: number,
   provider: JsonRpcProvider
 ): Promise<void> => {
   return new Promise(async resolve => {
     let blockNums = [];
-    for (let i: number = 0; i < txHashes.length; i++) {
+    for (let i = 0; i < txHashes.length; i++) {
       blockNums[i] = transactionRecieptExist(txHashes[i], interval, provider);
     }
 
-    for (let i: number = 0; i < txHashes.length; i++) {
+    for (let i = 0; i < txHashes.length; i++) {
       await blockNums[i];
-      console.log(`transaction mined! (hash: ${txHashes[i]})`)
+      console.log(`transaction mined! (hash: ${txHashes[i]})`);
     }
     console.log(`\n`);
 
@@ -46,4 +46,4 @@ const transactionRecieptExist = async (
   });
 };
 
-export { TransactionsMined };
+export {TransactionsMined};
