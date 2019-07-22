@@ -1,0 +1,32 @@
+[33mbfe9a66[m HEAD@{0}: commit (merge): fixed import statements
+[33m10f78a5[m HEAD@{1}: checkout: moving from greg/scripts to master
+[33m0ee9928[m HEAD@{2}: commit (merge): fixed import statements
+[33m027859e[m HEAD@{3}: commit: fixed import statements
+[33ma572cc3[m HEAD@{4}: checkout: moving from greg/scripts to greg/scripts
+[33ma572cc3[m HEAD@{5}: checkout: moving from master to greg/scripts
+[33m10f78a5[m HEAD@{6}: pull: Fast-forward
+[33m6a16d19[m HEAD@{7}: pull: Fast-forward
+[33me250bbb[m HEAD@{8}: checkout: moving from master to master
+[33me250bbb[m HEAD@{9}: checkout: moving from master to master
+[33me250bbb[m HEAD@{10}: checkout: moving from greg/cleanup to master
+[33m7f497f7[m HEAD@{11}: checkout: moving from greg/cleanup to greg/cleanup
+[33m7f497f7[m HEAD@{12}: checkout: moving from greg/scripts to greg/cleanup
+[33ma572cc3[m HEAD@{13}: checkout: moving from greg/scripts to greg/scripts
+[33ma572cc3[m HEAD@{14}: checkout: moving from master to greg/scripts
+[33me250bbb[m HEAD@{15}: pull: Fast-forward
+[33mbc4af2e[m HEAD@{16}: checkout: moving from greg/scripts to master
+[33ma572cc3[m HEAD@{17}: checkout: moving from stephanie/whiteblock to greg/scripts
+[33mbc4af2e[m HEAD@{18}: checkout: moving from master to stephanie/whiteblock
+[33mbc4af2e[m HEAD@{19}: commit: cleaned up and documented
+[33m974d694[m HEAD@{20}: commit: removed key
+[33m8000cce[m HEAD@{21}: commit: added bytecodes for updated contracts
+[33md23ebb2[m HEAD@{22}: commit: remove references to truffle
+[33m7e80a13[m HEAD@{23}: commit: removed local unintentionally commited
+[33m26ead4e[m HEAD@{24}: commit: deploy and interact with contracts on network
+[33md2e7458[m HEAD@{25}: commit: removed commenting out
+[33mc9a5bfa[m HEAD@{26}: commit: automating contract build and deployment - don't need truffle
+[33m34451cc[m HEAD@{27}: commit: added ChainId to config, meaningful logs, cleaned up
+[33mc7dadc5[m HEAD@{28}: pull: Fast-forward
+[33mb7f37fd[m HEAD@{29}: pull: Fast-forward
+[33m13a5147[m HEAD@{30}: pull origin master: Merge made by the 'recursive' strategy.
+[33mc298de9[m HEAD@{31}: commit (initial): init
