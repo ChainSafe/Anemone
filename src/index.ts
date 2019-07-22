@@ -1,4 +1,4 @@
-import ethers from "ethers";
+import {ethers} from "ethers";
 
 // Relative Imports
 import config from "./config";
@@ -7,7 +7,7 @@ import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
 import {deployContracts} from "./utilities/buildContracts";
 
-export const Main = async () => {
+const Main = async () => {
   // Provider
   const provider: JsonRpcProvider = connect(config.rpcUrl);
 
@@ -62,3 +62,5 @@ export const Main = async () => {
 Main()
   .then(() => { console.log("attalus executed without errors!");})
   .catch((err: any) => { console.log("attalus executed with errors: ", err);});
+
+export {Main}
