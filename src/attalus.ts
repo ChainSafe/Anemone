@@ -1,4 +1,4 @@
-import ethers, {Wallet} from "ethers";
+import {ethers, Wallet} from "ethers";
 import {JsonRpcProvider} from "ethers/providers";
 
 import config from "./config";
