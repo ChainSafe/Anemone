@@ -1,4 +1,4 @@
-import ethers from "ethers";
+import {ethers} from "ethers";
 
 // Relative Imports
 import config from "./config";
