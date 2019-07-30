@@ -32,9 +32,6 @@ const config = {
   //max gas to set for each transaction generated
   maxGas: "210000",
 
-  //private key of wallet that will fund the other sender wallets
-  funderPrivateKey: "",
-
   //chainId, currently 1337 for kensignton testnet
   chainId: 1337,
 

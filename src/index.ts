@@ -15,7 +15,7 @@ export const Main = async () => {
   const numWallets: number = config.numWallets;
 
   // Setup wallets
-  const mainWallet = new ethers.Wallet(config.funderPrivateKey, provider);
+  const mainWallet = new ethers.Wallet(process.argv[2], provider);
   const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
