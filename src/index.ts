@@ -6,16 +6,33 @@ import {connect, generateWallets, fundWallets, batchTxs, testOpcodes} from "./at
 import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
 import {deployContracts} from "./utilities/buildContracts";
+import {parseArgs} from "./utilities/parseArgs";
+import { exists } from "fs";
 
 export const Main = async () => {
-  // Provider
-  const provider: JsonRpcProvider = connect(config.rpcUrl);
+  //set up args
+  let rpcUrl, pk = parseArgs();
 
+  // Provider
+  let provider: JsonRpcProvider;
+
+  if (rpcUrl !=null) {
+    provider = connect(rpcUrl);
+  } else {
+    provider = connect(config.rpcUrl);
+  }
   // Constants
   const numWallets: number = config.numWallets;
-
   // Setup wallets
-  const mainWallet = new ethers.Wallet(process.argv[2], provider);
+  let mainWallet;
+
+  if (pk !=null) {
+    mainWallet = new ethers.Wallet(pk, provider);
+  } else {
+    console.log("Please provide valid private key!")
+    process.exit();
+  }
+
   const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
