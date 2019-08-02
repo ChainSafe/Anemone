@@ -75,5 +75,6 @@ const prepareTxData = () => {
 }
 
 export {
-  deployContracts
+  deployContracts,
+  prepareTxData
 };
