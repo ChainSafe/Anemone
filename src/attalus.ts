@@ -122,6 +122,25 @@ const testOpcodes = async (provider: JsonRpcProvider, contractAddresses: any[], 
   return txResponses;
 };
 
+const testEdgecases = async (provider: JsonRpcProvider, txData: any[], mainWallet) => {
+  let nonce = await mainWallet.getTransactionCount();
+  let txResponses = [];
+  console.log("testing edgecases...")
+  for (let i = 0; i < txData.length; i++){
+    const tx = {
+      nonce: nonce,
+      gasLimit: bn(config.maxGas),
+      gasPrice: parseGwei(config.gasPrice),
+      chainId: config.chainId,
+      data: txData[i]
+    };
+    const txResponse = await mainWallet.sendTransaction(tx);
+    txResponses.push(txResponse.hash);
+    nonce += 1;
+  }
+  return txResponses;
+}
+
 export {
   connect,
   generateWallets,
