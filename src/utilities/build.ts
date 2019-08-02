@@ -60,6 +60,20 @@ const deployContracts = async (mainWallet) => {
 
 };
 
+const prepareTxData = () => {
+  const buildPath = path.resolve('edgecases');
+  const txDataSources = getSources(buildPath);
+  const txData = []
+
+  for (let sourcePath in txDataSources){
+    let contents = fs.readFileSync(path.resolve(buildPath, sourcePath));
+    txData.push(contents)
+  }
+
+  return txData;
+
+}
+
 export {
   deployContracts
 };

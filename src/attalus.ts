@@ -146,5 +146,6 @@ export {
   generateWallets,
   fundWallets,
   batchTxs,
-  testOpcodes
+  testOpcodes,
+  testEdgecases
 };
