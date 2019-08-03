@@ -11,7 +11,7 @@ import { exists } from "fs";
 
 export const Main = async () => {
   //set up args
-  let rpcUrl, pk = parseArgs();
+  let [rpcUrl, pk] = parseArgs();
 
   // Provider
   let provider: JsonRpcProvider;
@@ -21,6 +21,7 @@ export const Main = async () => {
   } else {
     provider = connect(config.rpcUrl);
   }
+
   // Constants
   const numWallets: number = config.numWallets;
   // Setup wallets
