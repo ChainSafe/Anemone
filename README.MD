@@ -23,11 +23,15 @@ Attalus is a testing tool that broadcasts batches of transactions and tests opco
 * run `yarn install`
 
 ## Start
-**YOUR_PRIVATE_KEY** private key of wallet that will fund the other sender wallet and deploy opcode contracts.
+
+### Flags
+**--pk** Private key, takes private key of wallet that will fund the other sender wallet and deploy opcode contracts.
+
+**--rpcport** (Optional), specify url to node open for RPC, defaults to config value
 
 * Must have rpc port exposed on running geth instance.
 * Must ensure the account associated with the private key provided is sufficiently funded
-* run `yarn start YOUR_PRIVATE_KEY`
+* run `yarn start --pk YOUR_PRIVATE_KEY`
 
 **Please ensure that the account associated with the private key provided is sufficiently funded**
 
