@@ -42,7 +42,7 @@ const deployContracts = async (mainWallet) => {
   let nonce = await mainWallet.getTransactionCount();
 
   for (let bytecodePath in contractByteCodes){
-    let contents = fs.readFileSync(path.resolve(buildPath, bytecodePath));
+    let contents = fs.readFileSync(path.resolve(buildPath, bytecodePath), 'utf8');
     const tx = {
       nonce: nonce,
       value: 0,
@@ -66,7 +66,7 @@ const prepareTxData = () => {
   const txData = []
 
   for (let sourcePath in txDataSources){
-    let contents = fs.readFileSync(path.resolve(buildPath, sourcePath));
+    let contents = fs.readFileSync(path.resolve(buildPath, sourcePath),'utf8');
     txData.push(contents)
   }
 
