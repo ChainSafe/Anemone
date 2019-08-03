@@ -68,9 +68,6 @@ export const Main = async () => {
 
   }
 
-  console.log(prepareTxData());
-
-
 };
 
 Main()
