@@ -15,13 +15,16 @@ const config = {
   rpcUrl: "http://localhost:8545",
 
   //number of transactions to generate and throw
-  numTransactions: "1000",
+  numTransactions: "5",
 
   //number of wallets that will be created to throw/recieve transactions
-  numWallets: "20",
+  numWallets: "5",
 
   //set true to deploy and test the smart contracts containing each opcode
   testOpCodes: true,
+
+  //set true to deploy and test the smart contracts containing edgecases we have run into
+  testEdgecases: true,
 
   //value (in wei) to send in each transation
   amount: "10",    

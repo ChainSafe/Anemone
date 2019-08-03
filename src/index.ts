@@ -2,10 +2,10 @@ import {ethers} from "ethers";
 
 // Relative Imports
 import config from "./config";
-import {connect, generateWallets, fundWallets, batchTxs, testOpcodes} from "./attalus";
+import {connect, generateWallets, fundWallets, batchTxs, testOpcodes, testEdgecases} from "./attalus";
 import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
-import {deployContracts} from "./utilities/buildContracts";
+import {deployContracts, prepareTxData} from "./utilities/build";
 import {parseArgs} from "./utilities/parseArgs";
 import { exists } from "fs";
 
@@ -53,7 +53,7 @@ export const Main = async () => {
     await TransactionsMined(deployedContracts, 500, provider);  
 
     //workaround for transactionresponse objects not having value "create"
-    let addresses = [];
+    const addresses = [];
     for (let i = 0; i< deployedContracts.length; i++){
       let h = deployedContracts[i];
       let a = await provider.getTransaction(h);
@@ -61,7 +61,7 @@ export const Main = async () => {
     }
 
     //call testOpcodes for each deployed contract
-    let responses = await testOpcodes(provider, addresses, mainWallet);
+    const responses = await testOpcodes(provider, addresses, mainWallet);
 
     await TransactionsMined(responses, 500, provider);
 
@@ -71,6 +71,17 @@ export const Main = async () => {
       let a = await provider.getTransaction(h);
       console.log(a);
     }
+  }
+
+  if (config.testEdgecases) {
+    const edgecases = prepareTxData();
+    const txResponses = await testEdgecases(provider, edgecases, mainWallet);
+      // Log transaction reciepts
+    for (let i = 0; i< txResponses.length; i++){
+      let h = txResponses[i];
+      let a = await provider.getTransaction(h);
+      console.log(a);
+    }  
 
   }
 

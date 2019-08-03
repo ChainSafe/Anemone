@@ -42,7 +42,7 @@ const deployContracts = async (mainWallet) => {
   let nonce = await mainWallet.getTransactionCount();
 
   for (let bytecodePath in contractByteCodes){
-    let contents = fs.readFileSync(path.resolve(buildPath, bytecodePath));
+    let contents = (fs.readFileSync(path.resolve(buildPath, bytecodePath), 'utf8')).replace(/(\r\n|\n|\r)/gm,"");
     const tx = {
       nonce: nonce,
       value: 0,
@@ -60,6 +60,21 @@ const deployContracts = async (mainWallet) => {
 
 };
 
+const prepareTxData = () => {
+  const buildPath = path.resolve('edgecases');
+  const txDataSources = getSources(buildPath);
+  const txData = []
+
+  for (let sourcePath in txDataSources){
+    let contents = (fs.readFileSync(path.resolve(buildPath, sourcePath),'utf8')).replace(/(\r\n|\n|\r)/gm,"");
+    txData.push(contents)
+  }
+
+  return txData;
+
+}
+
 export {
-  deployContracts
+  deployContracts,
+  prepareTxData
 };
