@@ -14,8 +14,8 @@
         pkVal = process.argv[pkIndex + 1];
     }
 
-    return rpcUrlVal, pkVal
-    }
+    return [rpcUrlVal, pkVal]
+}
 
 export {
     parseArgs
