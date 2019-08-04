@@ -35,8 +35,7 @@ const config = {
   //max gas to set for each transaction generated
   maxGas: "210000",
 
-  //chainId, currently 1337 for kensignton testnet
-  chainId: 1337,
+  chainId: 15468,
 
 };
 
