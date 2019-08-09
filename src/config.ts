@@ -18,7 +18,7 @@ const config = {
   numTransactions: "20",
 
   //number of wallets that will be created to throw/recieve transactions
-  numWallets: "5",
+  numWallets: 5,
 
   //set true to deploy and test the smart contracts containing each opcode
   testOpCodes: true,

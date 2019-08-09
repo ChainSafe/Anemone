@@ -10,38 +10,37 @@ import {parseArgs} from "./utilities/parseArgs";
 import { exists } from "fs";
 
 export const Main = async () => {
+  //set up args
+  let [rpcUrl, pk] = parseArgs();
+
+  // Provider
+  let provider: JsonRpcProvider;
+    
+  if (rpcUrl !=null) {
+    provider = connect(rpcUrl);
+  } else {
+    provider = connect(config.rpcUrl);
+  }
+    
+  // Constants
+  const numWallets: number = config.numWallets;
+  // Setup wallets
+  let mainWallet;
+    
+  if (pk !=null) {
+    mainWallet = new ethers.Wallet(pk, provider);
+  } else {
+    console.log("Please provide valid private key!")
+    process.exit();
+  }
   
   while (true) {
-    await script();
+    await script(provider, numWallets, mainWallet);
   }
 
 };
 
-const script = async() => {
-    //set up args
-    let [rpcUrl, pk] = parseArgs();
-
-    // Provider
-    let provider: JsonRpcProvider;
-  
-    if (rpcUrl !=null) {
-      provider = connect(rpcUrl);
-    } else {
-      provider = connect(config.rpcUrl);
-    }
-  
-    // Constants
-    const numWallets: number = config.numWallets;
-    // Setup wallets
-    let mainWallet;
-  
-    if (pk !=null) {
-      mainWallet = new ethers.Wallet(pk, provider);
-    } else {
-      console.log("Please provide valid private key!")
-      process.exit();
-    }
-  
+const script = async(provider, numWallets, mainWallet) => {
     const wallets = await generateWallets(numWallets);
   
     // Send fuel to subwallets
