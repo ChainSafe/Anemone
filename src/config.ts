@@ -15,10 +15,10 @@ const config = {
   rpcUrl: "http://localhost:8545",
 
   //number of transactions to generate and throw
-  numTransactions: "5",
+  numTransactions: "500",
 
   //number of wallets that will be created to throw/recieve transactions
-  numWallets: "5",
+  numWallets: "20",
 
   //set true to deploy and test the smart contracts containing each opcode
   testOpCodes: true,
@@ -35,8 +35,8 @@ const config = {
   //max gas to set for each transaction generated
   maxGas: "210000",
 
-  //chainId, currently 1337 for kensignton testnet
-  chainId: 1337,
+  //chainId, currently 62 for Morden testnet
+  chainId: 62,
 
 };
 
