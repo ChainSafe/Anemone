@@ -15,7 +15,7 @@ const config = {
   rpcUrl: "http://localhost:8545",
 
   //number of transactions to generate and throw
-  numTransactions: "50",
+  numTransactions: "20",
 
   //number of wallets that will be created to throw/recieve transactions
   numWallets: "5",
