@@ -84,6 +84,8 @@ const script = async(provider, numWallets, mainWallet) => {
     if (config.testEdgecases) {
       const edgecases = prepareTxData();
       const txResponses = await testEdgecases(provider, edgecases, mainWallet);
+
+      await TransactionsMined(txResponses, 500, provider);
         // Log transaction reciepts
       for (let i = 0; i< txResponses.length; i++){
         let h = txResponses[i];
