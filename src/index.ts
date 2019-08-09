@@ -11,8 +11,8 @@ import { exists } from "fs";
 
 export const Main = async () => {
   
-  while (1) {
-    await script;
+  while (true) {
+    await script();
   }
 
 };
