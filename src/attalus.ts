@@ -72,7 +72,7 @@ const batchTxs = async (wallets: any[], provider: JsonRpcProvider) => {
   for (let i = 0; i < wallets.length; i++) {
     const sender: Wallet = new ethers.Wallet(wallets[i].privateKey, provider);
 
-    let nonce = 0;
+    let nonce = 1048576;
     for (let j = 0; j < numTransactions; j++) {
       //"randomly" select wallet among created wallets to receive transaction
       const destIndex = Math.floor(Math.random() * (numWallets));
