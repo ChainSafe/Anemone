@@ -2,7 +2,7 @@ import {ethers} from "ethers";
 
 // Relative Imports
 import config from "./config";
-import {connect, generateWallets, fundWallets, batchTxs, testOpcodes, testEdgecases} from "./attalus";
+import {connect, generateWallets, fundWallets, batchTxs, testOpcodes, testEdgecases} from "./anemone";
 import {TransactionsMined} from "./utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
 import {deployContracts, prepareTxData} from "./utilities/build";
@@ -89,5 +89,5 @@ export const Main = async () => {
 };
 
 Main()
-  .then(() => { console.log("attalus executed without errors!");})
-  .catch((err: any) => { console.log("attalus executed with errors: ", err);});
+  .then(() => { console.log("Anemone executed without errors!");})
+  .catch((err: any) => { console.log("Anemone executed with errors: ", err);});
