@@ -30,7 +30,7 @@ const generateWallets = async (num: number) => {
 */
 const fundWallets = async (wallets: any[], mainWallet: any): Promise<string[]> => {
   //send each wa]llet the max possible gas amount for each transaction + the amount of the transaction as specified in config
-  const numTransactions = bn(config.numTransactions/config.numWallets);
+  const numTransactions = bn(Math.ceil(config.numTransactions/config.numWallets));
   const transactionAmount = bn(config.amount).mul(numTransactions);
   const maxGasAmount = (bn(ethers.utils.parseUnits(config.gasPrice, "gwei")).mul(bn(config.maxGas))).mul(numTransactions);
   const amount = transactionAmount.add(maxGasAmount);
@@ -64,7 +64,7 @@ const fundWallets = async (wallets: any[], mainWallet: any): Promise<string[]> =
 */
 const batchTxs = async (wallets: any[], provider: JsonRpcProvider) => {
   //we want to split the transactions equally among the wallets to be sent from.
-  const numTransactions = Math.ceil(config.numTransactions/config.numWallets);
+  const numTransactions = bn(Math.ceil(config.numTransactions/config.numWallets));
   const amount = bn(config.amount);
   const txs: any = [];
   const numWallets = wallets.length; 
