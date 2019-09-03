@@ -1,6 +1,6 @@
-# Attalus
+# Anemone
 
-Attalus is a testing tool that broadcasts batches of transactions and tests opcodes.
+Anemone is a testing tool that broadcasts batches of transactions and tests opcodes.
 
 ## Config Values
 
