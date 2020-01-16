@@ -41,9 +41,9 @@ contract AzeltanTest {
 
         // call ECADD
         uint256[3] memory input1;
-        input1[0] = 3
-        input1[1] = 5
-        input1[2] = 123
+        input1[0] = 3;
+        input1[1] = 5;
+        input1[2] = 123;
         assembly {
             staticcall(gas, 0x06, input, 0x60, p, 0x40)
         }
@@ -51,18 +51,18 @@ contract AzeltanTest {
         // call ECMUL
         // With a public key (x, y), ECMUL computes p = scalar * (x, y).
         uint256[3] memory input2;
-        input2[0] = 3
-        input2[1] = 5
-        input2[2] = 123
+        input2[0] = 3;
+        input2[1] = 5;
+        input2[2] = 123;
         assembly {
             call(gas, 0x07, input, 0x60, p, 0x40)
         }
 
         // call Pairing Check
         uint256[3] memory input2;
-        input2[0] = 3
-        input2[1] = 5
-        input2[2] = 123
+        input2[0] = 3;
+        input2[1] = 5;
+        input2[2] = 123;
         assembly {
             call(gas, 0x08, input, 0x60, p, 0x40)
         }
@@ -72,7 +72,7 @@ contract AzeltanTest {
 
     // EIP-1344: Add ChainID opcode
     function testEIP1344() {
-        chainid()
+        chainid();
 
 
     }
