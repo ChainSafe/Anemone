@@ -31,7 +31,7 @@ contract CallOOG is CalledContract, TestContractInterface {
                                       //New free pointer position after the output values of the called function.
 
          let success := call(
-                         500,          //500 gas, we want to force an OOG in this contract so explicitly have it be less than 700
+                         500,          //500 gas, we want to force an OOG and revert in this contract so explicitly have it be less than 700
                          contractAddr, //To addr
                          0,            //No wei passed
                          ptr,          //Inputs are at location of ptr
