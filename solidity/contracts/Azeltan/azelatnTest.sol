@@ -149,18 +149,9 @@ contract AzeltanTest {
 
         assembly{ 
 
-            MLOAD(0x40) // load the memory at the free pointer
-            SSTORE(5)   // take this 
-            RESET()
-        
-        
-        
-        }
 
-        // assert CLEAT takes 8000 gas
-
-        assembly {
-            MLOAD(0x40)
+        
+        
         }
 
     }
