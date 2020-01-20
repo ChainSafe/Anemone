@@ -28,6 +28,8 @@ contract AzeltanTest {
         assembly {
             staticcall(not(0), 0x09, add(args, 32), 0xd5, output, 0x40)
         }
+
+        
     }
 
     // EIP-1108: Reduce alt_bn128 precompile gas costs
@@ -82,8 +84,8 @@ contract AzeltanTest {
     // so calldataload should cost 16 (gas) x 32 (bytes) or 512 gas now
     function testEIP2029() {
         assembly {
-            let a: = mload(0x40)
-            let b: = add(a, 32)
+            let a:= mload(0x40)
+            let b:= add(a, 32)
             // should have cost 512 gas
             calldataload(a)
         }
@@ -112,18 +114,20 @@ contract AzeltanTest {
     //                 If original value is 0, add SSTORE_SET_GAS - SLOAD_GAS to refund counter.
     //                 Otherwise, add SSTORE_RESET_GAS - SLOAD_GAS gas to refund counter.
 
+    uint storageuint;
+
     function testEIP2200 () {
-        uint256 startgas
-        uint256 endgas
+        uint256 startgas;
+        uint256 endgas;
 
         // assert SLOAD gas cost changed to 800
         assembly{ 
             
             startgas := gas()
-            MLOAD(5, 2)
+            SLOAD(storageuint_slot)
             endgas := gas()
 
-            assert(SUB(startgas, endgas) == 800)
+            assert(SUB(startgas, endgas), 800)
             
         
         }
