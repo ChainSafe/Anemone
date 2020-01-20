@@ -124,7 +124,7 @@ contract AzeltanTest {
         assembly{ 
             
             startgas := gas()
-            SLOAD(storageuint_slot)
+            sload(storageuint_slot)
             endgas := gas()
 
             assert(SUB(startgas, endgas), 800)
@@ -134,13 +134,13 @@ contract AzeltanTest {
 
         // assert SSTORE only takes 20000 gas
 
-        assembly{ 
+        assembly{
 
             startgas := gas()
-            SSTORE("a")
+            sstore(storageuint_slot, 1)
             endgas := gas()
 
-            assert(SUB(startgas, endgas) == 800)
+            assert(SUB(startgas, endgas), 20000)
 
 
          }
