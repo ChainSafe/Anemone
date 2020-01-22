@@ -1,9 +1,9 @@
-// things to test in this contract
+pragma solidity ^0.6.1;
 
 contract AzeltanTest {
 
     // EIP-152: Add Blake2 compression function F precompile
-    function testEIP152() {
+    function testEIP152() public {
 
         uint32 rounds = 12;
 
@@ -22,59 +22,94 @@ contract AzeltanTest {
         t[1] = hex"00000000";
 
         bool f = true;
+        
+        bytes32[2] memory output;
 
         bytes memory args = abi.encodePacked(rounds, h[0], h[1], m[0], m[1], m[2], m[3], t[0], t[1], f);
 
         assembly {
-            staticcall(not(0), 0x09, add(args, 32), 0xd5, output, 0x40)
+            if iszero(staticcall(not(0), 0x09, add(args, 32), 0xd5, output, 0x40)) {
+                revert(0,0)
+            }
         }
 
         
     }
-
+    
+    
     // EIP-1108: Reduce alt_bn128 precompile gas costs
     // Contract	        Address	Current Gas Cost	    Updated Gas Cost
     // ECADD	        0x06	500 	                150
     // ECMUL	        0x07	40 000          	    6 000
     // Pairing check	0x08	80 000 * k + 100 000    34 000 * k + 45 000
-    function testEIP1108() {
-
-        //TODO find valid keys :'(
-
+    
+    function testEIP1108_ECADD() public {
         // call ECADD
-        uint256[3] memory input1;
-        input1[0] = 3;
-        input1[1] = 5;
-        input1[2] = 123;
+        uint256[4] memory input1;
+        input1[0] = 0;
+        input1[1] = 0;
+        input1[2] = 0;
+        input1[3] = 0;
+        uint[2] memory p1;
+        uint gasConsumed;
         assembly {
-            staticcall(gas, 0x06, input, 0x60, p, 0x40)
+            let startgas := gas()
+            if iszero(staticcall(gas(), 0x06, input1, 0x60, p1, 0x40)) {
+                revert(0,0)
+            }
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
+        
         }
-
-        // call ECMUL
-        // With a public key (x, y), ECMUL computes p = scalar * (x, y).
-        uint256[3] memory input2;
-        input2[0] = 3;
-        input2[1] = 5;
-        input2[2] = 123;
-        assembly {
-            call(gas, 0x07, input, 0x60, p, 0x40)
-        }
-
-        // call Pairing Check
-        uint256[3] memory input2;
-        input2[0] = 3;
-        input2[1] = 5;
-        input2[2] = 123;
-        assembly {
-            call(gas, 0x08, input, 0x60, p, 0x40)
-        }
-
-
+        // gas used for this should be 500 (cost of precompile) + 12*4 (4 words as parameters) + 700 (cost of staticcall) + 2 (cost of gas())
+        assert(gasConsumed == 1250);
+        
     }
+    
+    function testEIP1108_EMUL() public {
+        uint256[3] memory input2;
+        input2[0] = 0;
+        input2[1] = 0;
+        input2[2] = 1;
+        uint[2] memory p2;
+        uint gasConsumed;
+        assembly {
+            let startgas := gas()
+            if iszero(staticcall(gas(), 0x07, input2, 0x60, p2, 0x40)) {
+                revert(0,0)
+            }
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
+        }
+        
+        // gas used for this should be 6000 (cost of precompile) + 12*3 (3 words as parameters) + 700 (cost of staticcall) + 2 (cost of gas())
+        
+        assert(gasConsumed == 6738);
+        
+    }
+    
+    // function testEIP1108_PAIRINGCHECK() public {
+    //     //NEED TO FIND VALID BYTESTREAM
+    //     bytes memory input;
+    //     uint256 len = input.length;
+    //     require(len % 192 == 0);
+    //     uint memory p3;
+    //     assembly {
+    //         if iszero(staticcall(gas(), 0x08, add(input, 0x20), len, p3, 0x20)) {
+    //             revert(0,0)
+    //         }
+    //     }
+        
+    // }
+
 
     // EIP-1344: Add ChainID opcode
-    function testEIP1344() {
-        chainid();
+    function testEIP1344() public{
+        assembly {
+            pop(chainid())
+        }
 
 
     }
@@ -82,13 +117,23 @@ contract AzeltanTest {
     // EIP-2028: Calldata gas cost reduction
     // From 68 gas per byte, to 16 gas per byte
     // so calldataload should cost 16 (gas) x 32 (bytes) or 512 gas now
-    function testEIP2029() {
+    function testEIP2029() public {
+        
+        uint gasConsumed;
         assembly {
             let a:= mload(0x40)
             let b:= add(a, 32)
             // should have cost 512 gas
-            calldataload(a)
+            let startgas := gas()
+            pop(calldataload(a))
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
         }
+        
+        
+        // gas used for this should be 512(16 * 32) + 12*1 (1 word as parameter) + 2 (cost of gas()) + 2 (pop())
+        assert(gasConsumed == 528);
 
     }
 
@@ -115,45 +160,52 @@ contract AzeltanTest {
     //                 Otherwise, add SSTORE_RESET_GAS - SLOAD_GAS gas to refund counter.
 
     uint storageuint;
-
-    function testEIP2200 () {
-        uint256 startgas;
-        uint256 endgas;
-
+    
+    function testEIP2200_SLOAD_GAS() public {
         // assert SLOAD gas cost changed to 800
+        // If current value equals new value (this is a no-op), SLOAD_GAS is deducted.
+    
+        uint gasConsumed;
         assembly{ 
             
-            startgas := gas()
-            sload(storageuint_slot)
-            endgas := gas()
-
-            assert(SUB(startgas, endgas), 800)
+            let startgas := gas()
+            pop(sload(storageuint_slot))
+            let endgas := gas()
             
+            gasConsumed := sub(startgas, endgas)
         
         }
-
+        
+        // gas used for this should be 800 (sload) + 2 (gas()) + 2 (pop())
+        // if that doesnt work try 800 + 12 + 2 + 2
+        assert(gasConsumed == 804);
+        
+        
+    }
+    
+    function testEIP2200_SSTORE_GAS() public {
+        
         // assert SSTORE only takes 20000 gas
-
+        // If original value is 0, SSTORE_SET_GAS is deducted.
+        
+        uint gasConsumed;
+        
         assembly{
 
-            startgas := gas()
+            let startgas := gas()
+            // storageuint is uninitialized, original value in slot should be 0
             sstore(storageuint_slot, 1)
-            endgas := gas()
-
-            assert(SUB(startgas, endgas), 20000)
-
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
 
          }
-
-        // assert RESET Takes 5000 gas
-
-        assembly{ 
-
-
+         
+        // gas used for this should be 20000 (sstore) + 2 (gas()) + 12*1 (1 word)
+        // if that doesnt work try 20000 + 2 + 24
+        assert(gasConsumed == 20014);
         
-        
-        }
-
     }
+
 
 }
