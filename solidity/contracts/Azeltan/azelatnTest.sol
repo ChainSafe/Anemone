@@ -90,19 +90,19 @@ contract AzeltanTest {
         
     }
     
-    // function testEIP1108_PAIRINGCHECK() public {
-    //     //NEED TO FIND VALID BYTESTREAM
-    //     bytes memory input;
-    //     uint256 len = input.length;
-    //     require(len % 192 == 0);
-    //     uint memory p3;
-    //     assembly {
-    //         if iszero(staticcall(gas(), 0x08, add(input, 0x20), len, p3, 0x20)) {
-    //             revert(0,0)
-    //         }
-    //     }
+    function testEIP1108_PAIRINGCHECK() public {
+        //NEED TO FIND VALID BYTESTREAM
+        bytes memory input;
+        uint256 len = input.length;
+        require(len % 192 == 0);
+        uint p3;
+        assembly {
+            if iszero(staticcall(gas(), 0x08, add(input, 0x20), len, p3, 0x20)) {
+                revert(0,0)
+            }
+        }
         
-    // }
+    }
 
 
     // EIP-1344: Add ChainID opcode
@@ -163,8 +163,7 @@ contract AzeltanTest {
     
     function testEIP2200_SLOAD_GAS() public {
         // assert SLOAD gas cost changed to 800
-        // If current value equals new value (this is a no-op), SLOAD_GAS is deducted.
-    
+
         uint gasConsumed;
         assembly{ 
             
@@ -182,6 +181,7 @@ contract AzeltanTest {
         
         
     }
+
     
     function testEIP2200_SSTORE_GAS() public {
         
@@ -206,6 +206,77 @@ contract AzeltanTest {
         assert(gasConsumed == 20014);
         
     }
+
+    function testEIP2200_SSTORE_NOOP_GAS() public {
+        // assert SSTORE NOOP gas cost equivalent to SLOAD GAS
+        // If current value equals new value (this is a no-op), SLOAD_GAS is deducted.
+    
+        uint gasConsumed;
+        assembly{ 
+            
+            let startgas := gas()
+            sstore(storageuint_slot, 1)
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
+        
+        }
+        
+        // gas used for this should be 800 (sload) + 2 (gas())+ 12*1 (1 word)
+        // if that doesnt work try 800 + 12 + 12 + 2
+        assert(gasConsumed == 814);
+        
+        
+    }
+
+    function testEIP2200_SSTORE_RESET_GAS() public {
+        
+        // assert SSTORE only takes 20000 gas
+        // If original value is 0, SSTORE_SET_GAS is deducted.
+        
+        uint gasConsumed;
+        
+        assembly{
+
+            let startgas := gas()
+            // storageuint is uninitialized, original value in slot should be 0
+            sstore(storageuint_slot, 4)
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
+
+         }
+         
+        // gas used for this should be 5000(SSTORE_RESET) + 2 (gas()) + 12*1 (1 word)
+        // if that doesnt work try  5000 + 2 + 24
+        assert(gasConsumed == 5014);
+        
+    }
+
+    function testEIP2200_SSTORE_RESET_CLEAR_GAS() public {
+        
+        // assert SSTORE only takes 20000 gas
+        // If original value is 0, SSTORE_SET_GAS is deducted.
+        
+        uint gasConsumed;
+        
+        assembly{
+
+            let startgas := gas()
+            // storageuint is uninitialized, original value in slot should be 0
+            sstore(storageuint_slot, 4)
+            let endgas := gas()
+            
+            gasConsumed := sub(startgas, endgas)
+
+         }
+         
+        // gas used for this should be 5000(SSTORE_RESET) + 2 (gas()) + 12*1 (1 word)
+        // if that doesnt work try  5000 + 2 + 24
+        assert(gasConsumed == 5014);
+        
+    }
+
 
 
 }
