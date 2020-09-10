@@ -1,0 +1,60 @@
+{
+    "state": {
+        "keys": [
+            {
+                "address": "0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968",
+                "pkey": "6f5f67eaa674b2ce8cb5df3a9104071ac7643a49feeb056e0d2af977258d8cfb",
+                "balance": "100"
+            },
+            {
+                "address": "0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62",
+                "pkey": "dcb3b33d0d70ef84f36845f10274686abe684170af8eddab53af5031d285f331",
+                "balance": "100"
+            },
+            {
+                "address": "0xD4FAf27D84eDaE632B4F606bA823BBCEC472280a",
+                "pkey": "aff48fc8392cc37c3c2d8668661c160754159bae94ef245ead947950dc8a0c23",
+                "balance": "100"
+            }
+        ]
+    },
+    "tests": [
+        {
+            "_comment": "Tests a balance transfer between two addresses",
+            "method": "eth_getBalance",
+            "params": ["0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968"],
+            "return": "99",
+            "stateChange": {
+                "transfer": {
+                    "from": "0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968",
+                    "to": "0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62",
+                    "amount": "1"
+                }
+            }
+        },
+        {
+            "_comment": "Tests the balance of the receiver from the previous test",
+            "method": "eth_getBalance",
+            "params": ["0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62"],
+            "return": "101"
+        },
+        {
+            "_comment": "Tests the nonce of the sender from the previous transaction",
+            "method": "eth_getTransactionCount",
+            "params": ["0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968"],
+            "return": "1"
+        },
+        {
+            "_comment": "Tests the nonce of the receiver from the previous transaction",
+            "method": "eth_getTransactionCount",
+            "params": ["0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62"],
+            "return": "0"
+        }
+    ]
+}
+
+// "contract": {
+//     "contract": "0x12321321",
+//     "calldata": "0x123213",
+//     "from": "0x1"
+// }
