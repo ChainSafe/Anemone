@@ -38,13 +38,13 @@ class Runner {
 		} else if (err && err.data && err.data.stack.includes("Method " + payload.method + " not supported.")) {
 			console.log(`[ERR] The method: ${payload.method} does not exist!`);
 			this.update(payload.method, false, false);
+		} else if (err) {
+			console.log(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
 		} else if (res !== expected) {
 			console.log(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
 			this.update(payload.method, true, false);
-		} else if (res === expected) {
-			this.update(payload.method, true, true);
 		} else {
-			console.log(`[ERR] The method: ${payload.method} had an error: ${err}`);
+			this.update(payload.method, true, true);
 		}
 	}
 
