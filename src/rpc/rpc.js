@@ -35,14 +35,16 @@ class Runner {
 	execute(payload, err, res, expected) {
 		if (err && typeof err === 'string' && err.includes("Invalid JSON RPC response:")) {
 			throw new Error("JSON RPC Server not working!")
-		} else if (err && err.data.stack.includes("Method " + payload.method + " not supported.")) {
+		} else if (err && err.data && err.data.stack.includes("Method " + payload.method + " not supported.")) {
 			console.log(`[ERR] The method: ${payload.method} does not exist!`);
 			this.update(payload.method, false, false);
 		} else if (res !== expected) {
 			console.log(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
 			this.update(payload.method, true, false);
-		} else {
+		} else if (res === expected) {
 			this.update(payload.method, true, true);
+		} else {
+			console.log(`[ERR] The method: ${payload.method} had an error: ${err}`);
 		}
 	}
 
