@@ -40,6 +40,7 @@ class Runner {
 			this.update(payload.method, false, false);
 		} else if (err) {
 			console.log(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
+			this.update(payload.method, false, false);
 		} else if (res !== expected) {
 			console.log(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
 			this.update(payload.method, true, false);
