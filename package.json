@@ -35,6 +35,9 @@
   },
   "dependencies": {
     "ethers": "^4.0.0-beta.14",
-    "fs-extra": "^8.1.0"
+    "fs-extra": "^8.1.0",
+    "web3-core-helpers": "^1.2.11",
+    "web3-core-requestmanager": "^1.2.11",
+    "web3-providers-http": "^1.2.11"
   }
 }

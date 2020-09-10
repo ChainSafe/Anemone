@@ -25,8 +25,9 @@ function jsonHandler(callback, payload, expected) {
 };
 
 class Runner {
-	constructor() {
-		this.report = [];
+	constructor(onlyEndpoints = false) {
+		this.report = {};
+		this.onlyEndpoints = onlyEndpoints;
 		this.execute = this.execute.bind(this);
 		this.update = this.update.bind(this);
 	}
@@ -35,10 +36,10 @@ class Runner {
 		if (err && typeof err === 'string' && err.includes("Invalid JSON RPC response:")) {
 			throw new Error("JSON RPC Server not working!")
 		} else if (err && err.data.stack.includes("Method " + payload.method + " not supported.")) {
-			console.log(`The method: ${payload.method} does not exist!`);
+			console.log(`[ERR] The method: ${payload.method} does not exist!`);
 			this.update(payload.method, false, false);
 		} else if (res !== expected) {
-			console.log(`The method: ${payload.method} returned: ${res}, expected: ${expected}`)
+			console.log(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
 			this.update(payload.method, true, false);
 		} else {
 			this.update(payload.method, true, true);
@@ -46,14 +47,29 @@ class Runner {
 	}
 
 	update(method, implemented, result) {
-		this.report[method] = {
-			implemented,
-			result
+		if (this.onlyEndpoints) {
+			this.report[method] = {
+				implemented
+			}
+		} else {
+			this.report[method] = {
+				implemented,
+				result
+			}
 		}
 	}
 
 	log() {
-		console.log("report", this.report);
+		const table = [];
+		for (let key in this.report) {
+			const item = this.report[key];
+			if (this.onlyEndpoints) {
+				table.push({method: key, implemented: item.implemented})
+			} else {
+				table.push({method: key, implemented: item.implemented, returns: item.result})
+			}
+		}
+		console.table(table);
 	}
 }
 
@@ -65,9 +81,9 @@ class Runner {
 	const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
 	let mainWallet = new ethers.Wallet(ganache, provider);
 
-	const json = require("./dump.json");
+	const json = require("./endpoints.json");
 
-	const r = new Runner()
+	const r = new Runner(true)
 	const t = new transport();
 
 	// fund and generate new wallets
@@ -99,13 +115,13 @@ class Runner {
 		const payload = jsonrpc.toPayload(test.method, test.params);
 		t.send(payload, jsonHandler(r.execute, payload, test.expected));
 	}
-	setTimeout(() => r.log(), 2000);
+	setTimeout(() => r.log(), 5000);
 })();
 
 executeTransfer = async (wallets, test) => {
 	const w = wallets[test.from];
 	await w.sendTransaction({
 		to: test.to,
-		value: ethers.utils.parseEther(test.amount)
+		value: ethers.utils.arrayify(test.amount)
 	})
 }

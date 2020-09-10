@@ -37,7 +37,7 @@
             "_comment": "Tests the balance of the receiver from the previous test",
             "method": "eth_getBalance",
             "params": ["0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62"],
-            "expected": ""
+            "expected": "0x1"
         },
         {
             "_comment": "Tests the nonce of the sender from the previous transaction",
@@ -50,6 +50,12 @@
             "method": "eth_getTransactionCount",
             "params": ["0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62"],
             "expected": "0x0"
+        },
+        {
+            "_comment": "Tests the nonce of the receiver from the previous transaction",
+            "method": "eth_blockNumber",
+            "params": [],
+            "expected": ""
         }
     ]
 }
