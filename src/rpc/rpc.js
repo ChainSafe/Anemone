@@ -38,6 +38,9 @@ class Runner {
 		} else if (err && err.data && err.data.stack.includes("Method " + payload.method + " not supported.")) {
 			console.log(`[ERR] The method: ${payload.method} does not exist!`);
 			this.update(payload.method, false, false);
+		} else if (err && err.message && err.message.includes("missing value")) {
+			console.log(`[ERR] The payload for: ${payload.method} was missing values: ${err}`);
+			this.update(payload.method, false, false);
 		} else if (err) {
 			console.log(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
 			this.update(payload.method, false, false);
