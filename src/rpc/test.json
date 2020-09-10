@@ -23,38 +23,33 @@
             "_comment": "Tests a balance transfer between two addresses",
             "method": "eth_getBalance",
             "params": ["0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968"],
-            "return": "99",
-            "stateChange": {
-                "transfer": {
+            "expected": "99",
+            "stateChange": [
+                {
+                    "type": "transfer",
                     "from": "0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968",
                     "to": "0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62",
-                    "amount": "1"
+                    "amount": "0x1"
                 }
-            }
+            ]
         },
         {
             "_comment": "Tests the balance of the receiver from the previous test",
             "method": "eth_getBalance",
             "params": ["0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62"],
-            "return": "101"
+            "expected": ""
         },
         {
             "_comment": "Tests the nonce of the sender from the previous transaction",
             "method": "eth_getTransactionCount",
             "params": ["0xfce1C2b5D6aB2C6cfE75f9D3581Cb55FBaF57968"],
-            "return": "1"
+            "expected": "0x1"
         },
         {
             "_comment": "Tests the nonce of the receiver from the previous transaction",
             "method": "eth_getTransactionCount",
             "params": ["0x3c3BBab6b0A5BAe8a75edf4c623985F09eC91c62"],
-            "return": "0"
+            "expected": "0x0"
         }
     ]
 }
-
-// "contract": {
-//     "contract": "0x12321321",
-//     "calldata": "0x123213",
-//     "from": "0x1"
-// }
