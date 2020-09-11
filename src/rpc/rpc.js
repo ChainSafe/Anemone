@@ -3,11 +3,16 @@ const jsonrpc = require("web3-core-requestmanager/src/jsonrpc");
 const transport = require("web3-providers-http");
 const ethers = require("ethers");
 
+function parseError(result) {
+	var message = !!result && !!result.error && !!result.error.message ? result.error.message : JSON.stringify(result);
+	return new Error('Returned error: ' + message);
+}
+
 class Runner {
 	constructor(opts) {
 		this.report = {};
-		this.debug = debug || false;
-		this.logger = logger || function(msg) {this.debug ? console.log(msg) : null}
+		this.debug = opts.debug || false;
+		this.logger = opts.logger || function(msg) {this.debug ? console.log(msg) : null}
 		this.onlyEndpoints = opts.onlyEndpoints || false;
 		this.execute = this.execute.bind(this);
 		this.update = this.update.bind(this);
@@ -22,7 +27,7 @@ class Runner {
 				return callback(payload, err);
 			}
 			if (result && result.error) {
-				return callback(payload, errors.ErrorResponse(result));
+				return callback(payload, parseError(result));
 			}
 			if (!jsonrpc.isValidResponse(result)) {
 				return callback(payload, errors.InvalidResponse(result));
@@ -31,24 +36,38 @@ class Runner {
 		}
 	};
 
-	execute(payload, err, res, expected) {
-		if (err && typeof err === 'string' && err.includes("Invalid JSON RPC response:")) {
+	execute(payload, error, res, expected) {
+		if (error && typeof error === 'string' && error.toLowerCase().includes("invalid json rpc response")) {
 			throw new Error("JSON RPC Server not working!")
-		} else if (err && err.data && err.data.stack.includes("Method " + payload.method + " not supported.")) {
-			this.logger(`[ERR] The method: ${payload.method} does not exist!`);
-			this.update(payload.method, false, false);
-		} else if (err && err.message && err.message.includes("does not exist")) {
-			this.logger(`[ERR] The method: ${payload.method} does not exist!`);
-			this.update(payload.method, false, false);
-		} else if (err && err.message && err.message.includes("missing value")) {
-			this.logger(`[ERR] The payload for: ${payload.method} was missing values: ${err}`);
-			this.update(payload.method, true, false);
-		} else if (err) {
-			this.logger(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
-			this.update(payload.method, false, false);
-		} else if (res !== expected) {
-			this.logger(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
-			this.update(payload.method, true, false);
+	
+		}
+		// Parse different error values
+		let err;
+		if (error && error.data && error.data.stack) {
+			err = error.data.stack.toLowerCase();
+		} else if (error && error.message) {
+			err = error.message.toLowerCase();
+		}
+
+		if (err) {
+			if (err.includes("not supported.") || err.includes("does not exist")) {
+				this.logger(`[ERR] The method: ${payload.method} does not exist!`);
+				this.update(payload.method, false, false);
+
+			} else if (err.includes("missing value") || err.includes("incorrect number of arguments") || err.includes("cannot read")) {
+				this.logger(`[ERR] The payload for: ${payload.method} was missing values: ${err}`);
+				this.update(payload.method, true, false);
+
+			} else {
+				this.logger(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
+				this.update(payload.method, false, false);
+
+			}
+
+		} else if (!this.onlyEndpoints && res !== expected) {
+				this.logger(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
+				this.update(payload.method, true, false);
+
 		} else {
 			this.update(payload.method, true, true);
 		}
@@ -93,7 +112,7 @@ class Runner {
 
 	const r = new Runner({
 		onlyEndpoints: true,
-		debug: false
+		debug: true
 	})
 	const t = new transport();
 
@@ -124,7 +143,7 @@ class Runner {
 			}
 		}
 		const payload = jsonrpc.toPayload(test.method, test.params);
-		t.send(payload, jsonHandler(r.execute, payload, test.expected));
+		t.send(payload, r.jsonHandler(r.execute, payload, test.expected));
 	}
 	setTimeout(() => r.log(), 5000);
 })();
