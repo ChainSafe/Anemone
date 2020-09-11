@@ -3,52 +3,51 @@ const jsonrpc = require("web3-core-requestmanager/src/jsonrpc");
 const transport = require("web3-providers-http");
 const ethers = require("ethers");
 
-function jsonHandler(callback, payload, expected) {
-	return function(err, result) {
-		if(result && result.id && payload.id !== result.id) {
-			return callback(payload, new Error(`Wrong response id ${result.id} (expected: ${payload.id}) in ${JSON.stringify(payload)}`));
-		}
-
-		if (err) {
-			return callback(payload, err);
-		}
-
-		if (result && result.error) {
-			return callback(payload, errors.ErrorResponse(result));
-		}
-
-		if (!jsonrpc.isValidResponse(result)) {
-			return callback(payload, errors.InvalidResponse(result));
-		}
-		callback(payload, null, result.result, expected);
-	}
-};
-
 class Runner {
-	constructor(onlyEndpoints = false) {
+	constructor(opts) {
 		this.report = {};
-		this.onlyEndpoints = onlyEndpoints;
+		this.debug = debug || false;
+		this.logger = logger || function(msg) {this.debug ? console.log(msg) : null}
+		this.onlyEndpoints = opts.onlyEndpoints || false;
 		this.execute = this.execute.bind(this);
 		this.update = this.update.bind(this);
 	}
+
+	jsonHandler(callback, payload, expected) {
+		return function(err, result) {
+			if(result && result.id && payload.id !== result.id) {
+				return callback(payload, new Error(`Wrong response id ${result.id} (expected: ${payload.id}) in ${JSON.stringify(payload)}`));
+			}
+			if (err) {
+				return callback(payload, err);
+			}
+			if (result && result.error) {
+				return callback(payload, errors.ErrorResponse(result));
+			}
+			if (!jsonrpc.isValidResponse(result)) {
+				return callback(payload, errors.InvalidResponse(result));
+			}
+			callback(payload, null, result.result, expected);
+		}
+	};
 
 	execute(payload, err, res, expected) {
 		if (err && typeof err === 'string' && err.includes("Invalid JSON RPC response:")) {
 			throw new Error("JSON RPC Server not working!")
 		} else if (err && err.data && err.data.stack.includes("Method " + payload.method + " not supported.")) {
-			console.log(`[ERR] The method: ${payload.method} does not exist!`);
+			this.logger(`[ERR] The method: ${payload.method} does not exist!`);
 			this.update(payload.method, false, false);
 		} else if (err && err.message && err.message.includes("does not exist")) {
-			console.log(`[ERR] The method: ${payload.method} does not exist!`);
+			this.logger(`[ERR] The method: ${payload.method} does not exist!`);
 			this.update(payload.method, false, false);
 		} else if (err && err.message && err.message.includes("missing value")) {
-			console.log(`[ERR] The payload for: ${payload.method} was missing values: ${err}`);
-			this.update(payload.method, false, false);
+			this.logger(`[ERR] The payload for: ${payload.method} was missing values: ${err}`);
+			this.update(payload.method, true, false);
 		} else if (err) {
-			console.log(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
+			this.logger(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
 			this.update(payload.method, false, false);
 		} else if (res !== expected) {
-			console.log(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
+			this.logger(`[ERR] The method: ${payload.method} returned: ${res}, expected: ${expected}`)
 			this.update(payload.method, true, false);
 		} else {
 			this.update(payload.method, true, true);
@@ -92,7 +91,10 @@ class Runner {
 
 	const json = require("./endpoints.json");
 
-	const r = new Runner(true)
+	const r = new Runner({
+		onlyEndpoints: true,
+		debug: false
+	})
 	const t = new transport();
 
 	// fund and generate new wallets
