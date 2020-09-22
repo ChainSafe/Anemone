@@ -2,7 +2,7 @@ import {ethers, Wallet} from "ethers";
 import {JsonRpcProvider} from "ethers/providers";
 
 import config from "./config";
-import {bn, parseGwei} from "./utilities/conversion";
+import {bn, parseGwei} from "../../utilities/conversion";
 
 const connect = (url: string): JsonRpcProvider => {
   return new ethers.providers.JsonRpcProvider(url, "");

@@ -1,19 +1,31 @@
+import { Func } from "mocha";
+
 const errors = require('web3-core-helpers').errors;
 const jsonrpc = require("web3-core-requestmanager/src/jsonrpc");
-const transport = require("web3-providers-http");
 const ethers = require("ethers");
 
-function parseError(result) {
-	var message = !!result && !!result.error && !!result.error.message ? result.error.message : JSON.stringify(result);
+export function parseError(result): Error {
+	var message: string = !!result && !!result.error && !!result.error.message ? result.error.message : JSON.stringify(result);
 	return new Error('Returned error: ' + message);
 }
 
-class Runner {
-	constructor(opts) {
+export interface IRunnerOpts {
+	debug?: boolean;
+	logger?: Function;
+	onlyEndpoints?: boolean;
+}
+
+export class Runner {
+	report: any = {};
+	debug: boolean = false;
+	onlyEndpoints: boolean = false;
+	logger: Function = function(msg) {this.debug ? console.log(msg) : null};
+
+	constructor(opts: IRunnerOpts) {
 		this.report = {};
-		this.debug = opts.debug || false;
-		this.logger = opts.logger || function(msg) {this.debug ? console.log(msg) : null}
-		this.onlyEndpoints = opts.onlyEndpoints || false;
+		this.debug = opts.debug
+		this.logger = opts.logger;
+		this.onlyEndpoints = opts.onlyEndpoints;
 		this.execute = this.execute.bind(this);
 		this.update = this.update.bind(this);
 	}
@@ -57,7 +69,6 @@ class Runner {
 			} else if (err.includes("missing value") || err.includes("incorrect number of arguments") || err.includes("cannot read")) {
 				this.logger(`[ERR] The payload for: ${payload.method} was missing values: ${err}`);
 				this.update(payload.method, true, false);
-
 			} else {
 				this.logger(`[ERR] The method: ${payload.method} had an error we couldn't parse: ${err}`);
 				this.update(payload.method, false, false);
@@ -100,55 +111,7 @@ class Runner {
 	}
 }
 
-/**
- * Simple Runner
- */
-(async () => {
-	const ganache = "0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5"
-	const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
-	let mainWallet = new ethers.Wallet(ganache, provider);
-
-	const json = require("./endpoints.json");
-
-	const r = new Runner({
-		onlyEndpoints: true,
-		debug: true
-	})
-	const t = new transport();
-
-	// fund and generate new wallets
-	const stateKeys = json.state.keys;
-	const testWallets = {};
-
-	for (let i = 0; i < stateKeys.length; i++) {
-		// fund the account
-		await mainWallet.sendTransaction({
-			to: stateKeys[i].address,
-			value: ethers.utils.parseEther(stateKeys[i].balance)
-		})
-
-		// Create the new wallet
-		testWallets[stateKeys[i].address] = new ethers.Wallet("0x" + stateKeys[i].pkey, provider);
-	}
-
-	const testCases = json.tests;
-	for (let i = 0; i < json.tests.length; i++) {
-		const test = testCases[i];
-		if (test.stateChange && test.stateChange.length > 0) {
-			for (let j = 0; j < test.stateChange.length; j++) {
-				if (test.stateChange[j].type === "transfer") {
-					console.log("executed state change")
-					await executeTransfer(testWallets, test.stateChange[j]);
-				}
-			}
-		}
-		const payload = jsonrpc.toPayload(test.method, test.params);
-		t.send(payload, r.jsonHandler(r.execute, payload, test.expected));
-	}
-	setTimeout(() => r.log(), 5000);
-})();
-
-executeTransfer = async (wallets, test) => {
+export const executeTransfer = async (wallets, test) => {
 	const w = wallets[test.from];
 	await w.sendTransaction({
 		to: test.to,

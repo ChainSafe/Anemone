@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as ethers from 'ethers';
-import config from "../config";
+import config from "../cmds/evm/config";
 import {bn, parseGwei} from "./conversion";
 
 
