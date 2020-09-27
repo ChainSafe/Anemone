@@ -1,28 +1,34 @@
 import {Command} from "commander";
-import ethers from "ethers";
+import {ethers} from "ethers";
 import transport from "web3-providers-http/src/";
 import jsonrpc from "web3-core-requestmanager/src/jsonrpc";
+import fs from "fs";
 import {Runner, executeTransfer} from "./rpc";
+import defaultJsonConfig from "./configs/endpoints.json";
 
 const rpcCommand = new Command("rpc");
 
 const exists = new Command("exists")
     .description("Check if the given endpoint ")
     .option('--url <value>', 'URL to connect to', "http://localhost:8545")
+    .option('--pk, privateKey <value>', 'Private key to populate wallets', "0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5")
+    .option('--debug', "Run with debug mode", false)
     .option('--jsonPath <path>', "Path to json file")
     .action(async function (args) {
         // TODO Move this
-        const ganache = "0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5"
         const provider = new ethers.providers.JsonRpcProvider(args.url);
-        let mainWallet = new ethers.Wallet(ganache, provider);
+        let mainWallet = new ethers.Wallet(args.privateKey, provider);
     
-        const json = require(args.jsonPath);
-        // const fs = require("fs");
-        // const json = fs.readFileSync("./endpoints.json");
+        let json 
+        if (args.jsonPath) {
+            json = JSON.parse(fs.readFileSync(args.jsonPath));
+        } else {
+            json = defaultJsonConfig;
+        }
     
         const r = new Runner({
             onlyEndpoints: true,
-            debug: true
+            debug: args.debug,
         })
         const t = new transport();
     

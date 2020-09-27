@@ -19,12 +19,12 @@ export class Runner {
 	report: any = {};
 	debug: boolean = false;
 	onlyEndpoints: boolean = false;
-	logger: Function = function(msg) {this.debug ? console.log(msg) : null};
+	logger: Function;
 
 	constructor(opts: IRunnerOpts) {
 		this.report = {};
 		this.debug = opts.debug
-		this.logger = opts.logger;
+		this.logger = opts.logger || function(msg) {this.debug ? console.log(msg) : null};;
 		this.onlyEndpoints = opts.onlyEndpoints;
 		this.execute = this.execute.bind(this);
 		this.update = this.update.bind(this);

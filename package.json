@@ -9,7 +9,8 @@
     "postbuild": "chmod +x ./lib/index.js",
     "check-types": "tsc --noEmit --incremental",
     "lint": "eslint --ext .ts src",
-    "lint-fix": "eslint --ext .ts src --fix"
+    "lint:fix": "eslint --ext .ts src --fix",
+    "start:ganache": "ganache-cli --account '0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5,100000000000000000000000000000000000000000000000000000000000000'"
   },
   "author": "ChainSafe Systems",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "@types/mocha": "^5.2.5",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "chai": "^4.1.2",
     "eslint": "5.14.1",
     "mocha": "^5.2.0",
