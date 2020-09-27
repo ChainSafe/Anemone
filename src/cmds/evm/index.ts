@@ -2,6 +2,7 @@ import {Command} from "commander";
 import {EVM} from "./evm";
 
 const evmCommand = new Command("evm");
+evmCommand.description("Tests related to the Ethereum Virtual Machine (EVM)");
 
 const run = new Command("run")
     .description("Runs evm compatibility check")

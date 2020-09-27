@@ -7,6 +7,7 @@ import {Runner, executeTransfer} from "./rpc";
 import defaultJsonConfig from "./configs/endpoints.json";
 
 const rpcCommand = new Command("rpc");
+rpcCommand.description("Tests related to the Ethereum JSON-RPC");
 
 const exists = new Command("exists")
     .description("Check if the given endpoint ")

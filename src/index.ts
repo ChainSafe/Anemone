@@ -2,6 +2,7 @@
 
 const {Command} = require('commander');
 const program = new Command();
+program.description("Anemone is an Ethereum node compatibility testing tool.")
 
 // Comands
 import * as commands from "./cmds"; 

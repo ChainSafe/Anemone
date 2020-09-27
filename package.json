@@ -1,8 +1,11 @@
 {
-  "name": "Anemone",
+  "name": "@chainsafe/anemone",
+  "description": "Anemone is an Ethereum node compatibility testing tool.",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.ts",
+  "main": "lib/index.ts",
+  "bin": {
+    "anemone": "./lib/index.js"
+  },
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel src -x .ts -d lib --source-maps",
@@ -10,10 +13,11 @@
     "check-types": "tsc --noEmit --incremental",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix",
-    "start:ganache": "ganache-cli --account '0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5,100000000000000000000000000000000000000000000000000000000000000'"
+    "start:ganache": "ganache-cli --account '0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5,100000000000000000000000000000000000000000000000000000000000000'",
+    "dev:start": "yarn build && ./lib/index.js"
   },
   "author": "ChainSafe Systems",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
     "@babel/cli": "^7.5.0",
     "@babel/core": "^7.5.4",
