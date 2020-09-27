@@ -8,9 +8,10 @@ import {JsonRpcProvider} from 'ethers/providers';
 import {deployContracts, prepareTxData} from "../../utilities/build";
 import {parseArgs} from "../../utilities/parseArgs";
 
-export const EVM = async () => {
+export const EVM = async (args) => {
+  console.log(args)
   //set up args
-  let [rpcUrl, pk] = parseArgs();
+  let {rpcUrl, privateKey} = args;
 
   // Provider
   let provider: JsonRpcProvider;
@@ -26,8 +27,8 @@ export const EVM = async () => {
   // Setup wallets
   let mainWallet;
 
-  if (pk !=null) {
-    mainWallet = new ethers.Wallet(pk, provider);
+  if (privateKey != null) {
+    mainWallet = new ethers.Wallet(privateKey, provider);
   } else {
     console.log("Please provide valid private key!")
     process.exit();

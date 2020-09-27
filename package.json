@@ -6,12 +6,12 @@
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel src -x .ts -d lib --source-maps",
+    "postbuild": "chmod +x ./lib/index.js",
     "check-types": "tsc --noEmit --incremental",
     "lint": "eslint --ext .ts src",
-    "lint-fix": "eslint --ext .ts src --fix",
-    "start": "yarn build && node ./lib/index.js"
+    "lint-fix": "eslint --ext .ts src --fix"
   },
-  "author": "",
+  "author": "ChainSafe Systems",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.5.0",
