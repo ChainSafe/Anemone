@@ -14,6 +14,7 @@ interface IConfigSchema {
         keys: {
             address: string,
             balance: string,
+            pkey: string
         }[]
     },
     tests: {
