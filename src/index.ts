@@ -14,12 +14,12 @@ for (let cmd in commands) {
 }
 
 if (process.argv && process.argv.length <= 2) {
-    program.help();
+    program.outputHelp();
 } else {
     try {
         program.parse(process.argv);
     } catch (e) {
-        program.help();
+        program.outputHelp();
         process.exit(1)
     }
 }
