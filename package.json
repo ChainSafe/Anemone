@@ -6,6 +6,11 @@
   "bin": {
     "anemone": "./lib/index.js"
   },
+  "files": [
+    "lib/**/*.d.ts",
+    "lib/**/*.js",
+    "lib/**/*.js.map"
+  ],
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel src -x .ts -d lib --source-maps",

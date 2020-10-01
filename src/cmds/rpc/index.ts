@@ -82,7 +82,7 @@ const exists = new Command("exists")
         setTimeout(() => {
             r.log();
             if (r.failed) {
-                console.log("One or more failures were reported!")
+                console.log("EXITING: One or more failures were reported!")
                 process.exit(1)
             }
         }, 5000);

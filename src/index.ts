@@ -7,7 +7,6 @@ program.description("Anemone is an Ethereum node compatibility testing tool.")
 // Comands
 import * as commands from "./cmds"; 
 
-program.exitOverride();
 program.allowUnknownOption(false);
 
 for (let cmd in commands) {
