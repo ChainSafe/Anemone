@@ -21,7 +21,6 @@ if (process.argv && process.argv.length <= 2) {
         program.parse(process.argv);
     } catch (e) {
         program.help();
-        console.log({ e });
         process.exit(1)
     }
 }

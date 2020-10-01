@@ -14,6 +14,7 @@ const run = new Command("run")
         .catch((err: any) => { console.log("Anemone executed with errors: ", err);});
     })
 
+evmCommand.exitOverride();
 evmCommand.addCommand(run)
 
 export { evmCommand };

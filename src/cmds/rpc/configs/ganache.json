@@ -181,7 +181,7 @@
             "method": "eth_getTransactionbyBlockNumberAndIndex",
             "params": [],
             "expected": "",
-            "required": true
+            "required": false
         },
         {
             "method": "eth_getTransactionReceipt",
@@ -265,7 +265,7 @@
             "method": "eth_getProof",
             "params": [],
             "expected": "",
-            "required": true
+            "required": false
         }
     ]
 }

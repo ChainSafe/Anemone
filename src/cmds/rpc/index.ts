@@ -9,22 +9,38 @@ import defaultJsonConfig from "./configs/endpoints.json";
 const rpcCommand = new Command("rpc");
 rpcCommand.description("Tests related to the Ethereum JSON-RPC");
 
+interface IConfigSchema {
+    state: {
+        keys: {
+            address: string,
+            balance: string,
+        }[]
+    },
+    tests: {
+        method: string,
+        params: any[],
+        expected: "",
+        required: boolean,
+        stateChange?: any
+    }[],
+}
+
 const exists = new Command("exists")
     .description("Check if the given endpoint ")
     .option('--url <value>', 'URL to connect to', "http://localhost:8545")
     .option('--pk, privateKey <value>', 'Private key to populate wallets', "0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5")
     .option('--debug', "Run with debug mode", false)
-    .option('--jsonPath <path>', "Path to json file")
+    .option('--config <path>', "Path to config file")
     .action(async function (args) {
         // TODO Move this
         const provider = new ethers.providers.JsonRpcProvider(args.url);
         let mainWallet = new ethers.Wallet(args.privateKey, provider);
     
-        let json 
-        if (args.jsonPath) {
-            json = JSON.parse(fs.readFileSync(args.jsonPath));
+        let json: IConfigSchema;
+        if (args.config) {
+            json = JSON.parse(fs.readFileSync(args.config)) as IConfigSchema;
         } else {
-            json = defaultJsonConfig;
+            json = defaultJsonConfig as IConfigSchema;
         }
     
         const r = new Runner({
@@ -60,11 +76,18 @@ const exists = new Command("exists")
                 }
             }
             const payload = jsonrpc.toPayload(test.method, test.params);
-            t.send(payload, r.jsonHandler(r.execute, payload, test.expected));
+            t.send(payload, r.jsonHandler(r.execute, payload, test.expected, test.required));
         }
-        setTimeout(() => r.log(), 5000);
+        setTimeout(() => {
+            r.log();
+            if (r.failed) {
+                console.log("One or more failures were reported!")
+                process.exit(1)
+            }
+        }, 5000);
     })
 
+exists.exitOverride();
 rpcCommand.addCommand(exists)
 
 export { rpcCommand };
