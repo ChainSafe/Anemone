@@ -18,7 +18,7 @@
     "check-types": "tsc --noEmit --incremental",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix",
-    "start:ganache": "ganache-cli --account '0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5,100000000000000000000000000000000000000000000000000000000000000'",
+    "dev:ganache": "ganache-cli --account '0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5,100000000000000000000000000000000000000000000000000000000000000'",
     "dev:start": "yarn build && ./lib/index.js"
   },
   "author": "ChainSafe Systems",

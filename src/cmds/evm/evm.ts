@@ -1,54 +1,44 @@
 import {ethers} from "ethers";
 
 // Relative Imports
-import config from "./config";
-import {connect, generateWallets, fundWallets, batchTxs, testOpcodes, testEdgecases} from "./helpers";
+import {generateWallets, fundWallets, batchTxs, testOpcodes, testEdgecases} from "./helpers";
 import {TransactionsMined} from "../../utilities/isTransactionMined";
 import {JsonRpcProvider} from 'ethers/providers';
 import {deployContracts, prepareTxData} from "../../utilities/build";
-import {parseArgs} from "../../utilities/parseArgs";
+import {IEvmArgs} from "./index"
 
-export const EVM = async (args) => {
-  console.log(args)
-  //set up args
-  let {rpcUrl, privateKey} = args;
-
+export const EVM = async (args: IEvmArgs) => {
   // Provider
-  let provider: JsonRpcProvider;
-
-  if (rpcUrl !=null) {
-    provider = connect(rpcUrl);
-  } else {
-    provider = connect(config.rpcUrl);
-  }
+  let provider: JsonRpcProvider = new ethers.providers.JsonRpcProvider(args.url);
 
   // Constants
-  const numWallets: number = config.numWallets;
+  const numWallets: number = args.wallets;
+  
   // Setup wallets
   let mainWallet;
-
-  if (privateKey != null) {
-    mainWallet = new ethers.Wallet(privateKey, provider);
+  if (args.privateKey != null) {
+    mainWallet = new ethers.Wallet(args.privateKey, provider);
   } else {
     console.log("Please provide valid private key!")
     process.exit();
   }
 
-  const wallets = await generateWallets(numWallets);
+  // TODO: Determine if this is still needed
+  
+  // const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
-  const txHashes: string[] = await fundWallets(wallets, mainWallet);
+  // const txHashes: string[] = await fundWallets(wallets, mainWallet);
 
   // Wait for Transactions fueling subwallets to be mined
-  await TransactionsMined(txHashes, 500, provider);
+  // await TransactionsMined(txHashes, 500, provider);
 
   // Create and send transactions as specified in config
-  await batchTxs(wallets, provider);
+  // await batchTxs(wallets, provider);
 
-  if (config.testOpCodes){
-
+  if (args.opcodes){
     // Deploy contracts from mainWallet
-    const deployedContracts = await deployContracts(mainWallet);
+    const deployedContracts = await deployContracts(args, mainWallet);
     
     // Wait for transactions to be mined
     await TransactionsMined(deployedContracts, 500, provider);  
@@ -62,26 +52,28 @@ export const EVM = async (args) => {
     }
 
     //call testOpcodes for each deployed contract
-    const responses = await testOpcodes(provider, addresses, mainWallet);
+    const responses = await testOpcodes(args, provider, addresses, mainWallet);
 
     await TransactionsMined(responses, 500, provider);
 
     // Log transaction reciepts
     for (let i = 0; i< responses.length; i++){
       let h = responses[i];
-      let a = await provider.getTransaction(h);
-      console.log(a);
+      await provider.getTransaction(h);
+      // const a = await provider.getTransaction(h);
+      // console.log(a);
     }
   }
 
-  if (config.testEdgecases) {
+  if (args.edgeCases) {
     const edgecases = prepareTxData();
-    const txResponses = await testEdgecases(provider, edgecases, mainWallet);
+    const txResponses = await testEdgecases(args, provider, edgecases, mainWallet);
       // Log transaction reciepts
     for (let i = 0; i< txResponses.length; i++){
       let h = txResponses[i];
-      let a = await provider.getTransaction(h);
-      console.log(a);
+      await provider.getTransaction(h);
+      // let a = await provider.getTransaction(h);
+      // console.log(a);
     }  
 
   }

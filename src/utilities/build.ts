@@ -1,8 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import * as ethers from 'ethers';
-import config from "../cmds/evm/config";
-import {bn, parseGwei} from "./conversion";
+import {ethers} from 'ethers';
+import { IEvmArgs } from '../cmds/evm';
 
 
 /*
@@ -27,18 +26,16 @@ const getSources = (sourceDir) => {
 
 
 /*
-* Deploys all the contract bytecode in the build folder from the wallet 
-* with private key config.funderPrivateKey
+* Deploys all the contract bytecode in the build folder
 */
-const deployContracts = async (mainWallet) => {
+const deployContracts = async (args: IEvmArgs, mainWallet: ethers.Wallet) => {
 
   const buildPath = path.resolve('solidity', 'build', 'contracts');
   const contractByteCodes = getSources(buildPath);
-  const deployedAddresses = {};
 
   console.log(`Deploying contracts from address: ${await mainWallet.getAddress()}`);
 
-  const txs: any = [];
+  const txHashes: string[] = [];
   let nonce = await mainWallet.getTransactionCount();
 
   for (let bytecodePath in contractByteCodes){
@@ -46,17 +43,17 @@ const deployContracts = async (mainWallet) => {
     const tx = {
       nonce: nonce,
       value: 0,
-      gasLimit: bn(config.maxGas),
-      gasPrice: parseGwei(config.gasPrice),
-      chainId: config.chainId,
+      // gasLimit: bn(config.maxGas),
+      // gasPrice: parseGwei(config.gasPrice),
+      chainId: args.chainId,
       data: contents
     };
     const txResponse = await mainWallet.sendTransaction(tx);
-    txs.push(txResponse.hash);
-    nonce += 1;
+    txHashes.push(txResponse.hash);
+    nonce++;
   }
 
-  return txs;
+  return txHashes;
 
 };
 
