@@ -9,22 +9,13 @@ import {IEvmArgs} from "./index"
 
 export const EVM = async (args: IEvmArgs) => {
   // Provider
-  let provider: JsonRpcProvider = new ethers.providers.JsonRpcProvider(args.url);
+  const provider: JsonRpcProvider = new ethers.providers.JsonRpcProvider(args.url);
 
-  // Constants
-  const numWallets: number = args.wallets;
-  
   // Setup wallets
-  let mainWallet;
-  if (args.privateKey != null) {
-    mainWallet = new ethers.Wallet(args.privateKey, provider);
-  } else {
-    console.log("Please provide valid private key!")
-    process.exit();
-  }
+  const mainWallet = new ethers.Wallet(args.privateKey, provider);
 
   // TODO: Determine if this is still needed
-  
+
   // const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
@@ -60,8 +51,6 @@ export const EVM = async (args: IEvmArgs) => {
     for (let i = 0; i< responses.length; i++){
       let h = responses[i];
       await provider.getTransaction(h);
-      // const a = await provider.getTransaction(h);
-      // console.log(a);
     }
   }
 
@@ -72,8 +61,6 @@ export const EVM = async (args: IEvmArgs) => {
     for (let i = 0; i< txResponses.length; i++){
       let h = txResponses[i];
       await provider.getTransaction(h);
-      // let a = await provider.getTransaction(h);
-      // console.log(a);
     }  
 
   }

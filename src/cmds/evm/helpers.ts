@@ -130,7 +130,6 @@ const testEdgecases = async (args: any, provider: JsonRpcProvider, txData: any[]
   let txResponses = [];
   console.log(`testing edgecases at ${provider.connection.url}...`)
   for (let i = 0; i < txData.length; i++){
-    console.log(txData[i]);
     const tx = {
       nonce: nonce,
       // gasLimit: bn(args.maxGas),
