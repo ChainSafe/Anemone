@@ -1,0 +1,271 @@
+{
+    "state": {
+        "keys": []
+    },
+    "tests": [
+        {
+            "method": "web3_clientVersion",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "web3_sha3",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "net_version",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "net_peerCount",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "net_listening",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_protocolVersion",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_syncing",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_coinbase",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_mining",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_hashrate",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_gasPrice",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_accounts",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_blockNumber",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getBalance",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getStorageAt",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getTransactionCount",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getBlockTransactionCountByHash",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getBlockTransactionCountByNumber",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getUncleCountByBlockHash",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getUncleCountByBlockNumber",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getCode",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_sign",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_sendTransaction",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_sendRawTransaction",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_call",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_estimateGas",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getBlockByNumber",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getTransactionByHash",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getTransactionByBlockHashAndIndex",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getTransactionbyBlockNumberAndIndex",
+            "params": [],
+            "expected": "",
+            "required": false
+        },
+        {
+            "method": "eth_getTransactionReceipt",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getUncleByBlockHashAndIndex",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getUncleByBlockNumberAndIndex",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_newFilter",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_newBlockFilter",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_newPendingTransactionFilter",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_uninstallFilter",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getFilterChanges",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getFilterLogs",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getLogs",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getWork",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_submitWork",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_submitHashrate",
+            "params": [],
+            "expected": "",
+            "required": true
+        },
+        {
+            "method": "eth_getProof",
+            "params": [],
+            "expected": "",
+            "required": false
+        }
+    ]
+}

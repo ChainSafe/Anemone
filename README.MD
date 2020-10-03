@@ -1,37 +1,13 @@
 # Anemone
 
-Anemone is a testing tool that broadcasts batches of transactions and tests opcodes.
+Anemone is an Ethereum node compatibility testing tool.
 
-## Config Values
+## Installation
+* $ `yarn install @chainsafe/anemone`
 
-   **rpcUrl:** Url to node open for RPC, defaults to default localhost port, **string**
+## Running from Source
+* $ `yarn dev:start <commands>`
 
-   **numTransactions:** number of transactions to generate and throw, **string**
-
-   **numWallets:** number of wallets that will be created to throw/recieve transactions, **string**
-
-   **testOpCodes:**    set true to deploy and test the smart contracts containing each opcode, **boolean**
-
-   **amount:** value (in wei) to send in each transaction, **string**    
-
-   **gasPrice:** gas price in gwei to set for each transaction, **string**
-   
-   **maxGas:** max gas to set for each transaction generated, **string**
-
-   **chainId:** chainId, **num**
-## Set-up
-* run `yarn install`
-
-## Start
-
-### Flags
-**--pk** Private key, takes private key of wallet that will fund the other sender wallet and deploy opcode contracts.
-
-**--rpcport** (Optional), specify url to node open for RPC, defaults to config value
-
-* Must have rpc port exposed on running geth instance.
-* Must ensure the account associated with the private key provided is sufficiently funded
-* run `yarn start --pk YOUR_PRIVATE_KEY`
-
-**Please ensure that the account associated with the private key provided is sufficiently funded**
-
+## Available Commands
+evm             Tests related to the Ethereum Virtual Machine (EVM)
+rpc             Tests related to the Ethereum JSON-RPC

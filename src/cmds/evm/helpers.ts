@@ -1,12 +1,7 @@
 import {ethers, Wallet} from "ethers";
 import {JsonRpcProvider} from "ethers/providers";
 
-import config from "./config";
-import {bn, parseGwei} from "./utilities/conversion";
-
-const connect = (url: string): JsonRpcProvider => {
-  return new ethers.providers.JsonRpcProvider(url, "");
-};
+import {bn, parseGwei} from "../../utilities/conversion";
 
 /*
 * Generates num wallets
@@ -28,11 +23,13 @@ const generateWallets = async (num: number) => {
 /*
 * Funds wallets in array wallets with mainWallet
 */
-const fundWallets = async (wallets: any[], mainWallet: any): Promise<string[]> => {
-  //send each wa]llet the max possible gas amount for each transaction + the amount of the transaction as specified in config
-  const numTransactions = bn(Math.ceil(config.numTransactions/config.numWallets));
-  const transactionAmount = bn(config.amount).mul(numTransactions);
-  const maxGasAmount = (bn(ethers.utils.parseUnits(config.gasPrice, "gwei")).mul(bn(config.maxGas))).mul(numTransactions);
+const fundWallets = async (args: any, wallets: ethers.Wallet[], mainWallet: ethers.Wallet): Promise<string[]> => {
+  // send each wallet the max possible gas amount for each transaction
+  const numTransactions = bn(Math.ceil(args.numTransactions/args.numWallets));
+  const transactionAmount = bn(args.amount).mul(numTransactions);
+
+  // Calculate optimal gas
+  const maxGasAmount = (bn(ethers.utils.parseUnits(String(args.gasPrice), "gwei")).mul(bn(args.maxGas))).mul(numTransactions);
   const amount = transactionAmount.add(maxGasAmount);
 
   const txHashes: string[] = [];
@@ -42,14 +39,14 @@ const fundWallets = async (wallets: any[], mainWallet: any): Promise<string[]> =
     const dest = await wallets[i].getAddress();
     const tx = {
       nonce: nonce,
-      value: amount,
+      value: args.amount,
       to: dest,
-      gasLimit: bn(config.maxGas),
-      gasPrice: parseGwei(config.gasPrice),
-      chainId: config.chainId
+      gasLimit: bn(args.maxGas),
+      gasPrice: parseGwei(args.gasPrice),
+      chainId: args.chainId
     };
     const txResponse = await mainWallet.sendTransaction(tx);
-    console.log(`sent transaction to fund address ${dest} at provider ${ethers.providers.JsonRpcProvider.url}`);
+    console.log(`Sent transaction to fund address ${dest}`);
     txHashes.push(txResponse.hash);
     nonce += 1;
   }
@@ -62,10 +59,12 @@ const fundWallets = async (wallets: any[], mainWallet: any): Promise<string[]> =
 /*
 * Creates and broadcasts batches of transactions from wallets in array wallets to provider
 */
-const batchTxs = async (wallets: any[], provider: JsonRpcProvider) => {
+const batchTxs = async (args: any, wallets: any[], provider: JsonRpcProvider) => {
   //we want to split the transactions equally among the wallets to be sent from.
-  const numTransactions = bn(Math.ceil(config.numTransactions/config.numWallets));
-  const amount = bn(config.amount);
+  const numTransactions = bn(Math.ceil(args.numTransactions/args.numWallets));
+
+  // To account for gas we reduce the amount being sent by 1 eth
+  // const amount = args.amount
   const txs: any = [];
   const numWallets = wallets.length; 
   console.log("Broadcasting transactions..."); 
@@ -73,44 +72,45 @@ const batchTxs = async (wallets: any[], provider: JsonRpcProvider) => {
     const sender: Wallet = new ethers.Wallet(wallets[i].privateKey, provider);
 
     let nonce = 0;
-    for (let j = 0; j < numTransactions; j++) {
+    for (let j = 0; j < numTransactions.toNumber(); j++) {
       //"randomly" select wallet among created wallets to receive transaction
       const destIndex = Math.floor(Math.random() * (numWallets));
       const dest = await wallets[destIndex].getAddress();
       const tx = {
 	      nonce: nonce,
-        value: amount,
+        value: args.amount,
         to: dest,
-        gasLimit: bn(config.maxGas),
-        gasPrice: parseGwei(config.gasPrice),
-        chainId: config.chainId,
+        // gasLimit: bn(args.maxGas),
+        // gasPrice: parseGwei(args.gasPrice),
+        chainId: args.chainId,
       };
       nonce += 1;
-      sender.sendTransaction(tx);
+
+      await sender.sendTransaction(tx);
       txs.push(tx); 
     }
   }
-  console.log(`\nCreated and broadcasted ${txs.length} transactions at provider ${provider.url}`);
+  console.log(`\nCreated and broadcasted ${txs.length} transactions at provider ${provider.connection.url}`);
   return txs;
 };
 
 /*
 * Broadcasts transactions from mainWallet to provider to call testOpcodes() at all known deployed contract addresses
 */
-const testOpcodes = async (provider: JsonRpcProvider, contractAddresses: any[], mainWallet) => {
+const testOpcodes = async (args: any, provider: JsonRpcProvider, contractAddresses: any[], mainWallet) => {
 
   let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
-  console.log(`calling testOpcodes at provider at provider ${provider.url}...`);
+  console.log(`calling testOpcodes at provider at provider ${provider.connection.url}...`);
 	
   for (let i = 0; i < contractAddresses.length; i++){
     const tx = {
       nonce: nonce,
       to: contractAddresses[i],
       value: 0,
-      gasLimit: bn(config.maxGas),
-      gasPrice: parseGwei(config.gasPrice),
-      chainId: config.chainId,
+      // gasLimit: bn(args.maxGas),
+      // gasPrice: parseGwei(args.gasPrice),
+      chainId: args.chainId,
       //ABI for all contracts is the same, testOpcodes is 0x391521f4
       data: "0x391521f4"
     };
@@ -125,17 +125,16 @@ const testOpcodes = async (provider: JsonRpcProvider, contractAddresses: any[], 
 /*
 * Broadcasts transactions with known edgecase data from mainWallet to provider
 */
-const testEdgecases = async (provider: JsonRpcProvider, txData: any[], mainWallet) => {
+const testEdgecases = async (args: any, provider: JsonRpcProvider, txData: any[], mainWallet) => {
   let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
-  console.log(`testing edgecases at ${provider.url}...`)
+  console.log(`testing edgecases at ${provider.connection.url}...`)
   for (let i = 0; i < txData.length; i++){
-    console.log(txData[i]);
     const tx = {
       nonce: nonce,
-      gasLimit: bn(config.maxGas),
-      gasPrice: parseGwei(config.gasPrice),
-      chainId: config.chainId,
+      // gasLimit: bn(args.maxGas),
+      // gasPrice: parseGwei(args.gasPrice),
+      chainId: args.chainId,
       data: txData[i]
     };
     const txResponse = await mainWallet.sendTransaction(tx);
@@ -146,7 +145,6 @@ const testEdgecases = async (provider: JsonRpcProvider, txData: any[], mainWalle
 }
 
 export {
-  connect,
   generateWallets,
   fundWallets,
   batchTxs,

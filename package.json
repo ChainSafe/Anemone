@@ -1,18 +1,28 @@
 {
-  "name": "Anemone",
+  "name": "@chainsafe/anemone",
+  "description": "Anemone is an Ethereum node compatibility testing tool.",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.ts",
+  "main": "lib/index.ts",
+  "bin": {
+    "anemone": "./lib/index.js"
+  },
+  "files": [
+    "lib/**/*.d.ts",
+    "lib/**/*.js",
+    "lib/**/*.js.map"
+  ],
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel src -x .ts -d lib --source-maps",
+    "postbuild": "chmod +x ./lib/index.js",
     "check-types": "tsc --noEmit --incremental",
     "lint": "eslint --ext .ts src",
-    "lint-fix": "eslint --ext .ts src --fix",
-    "start": "yarn build && node ./lib/index.js"
+    "lint:fix": "eslint --ext .ts src --fix",
+    "dev:ganache": "ganache-cli --account '0xb1157e88556d967936019ff60145276bd6618b9e2a67e505b79a1b50b47fd0f5,100000000000000000000000000000000000000000000000000000000000000'",
+    "dev:start": "yarn build && ./lib/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "ChainSafe Systems",
+  "license": "GPL-3.0",
   "devDependencies": {
     "@babel/cli": "^7.5.0",
     "@babel/core": "^7.5.4",
@@ -26,15 +36,21 @@
     "@types/mocha": "^5.2.5",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "chai": "^4.1.2",
     "eslint": "5.14.1",
+    "ganache-cli": "^6.11.0",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
   },
   "dependencies": {
+    "commander": "^6.1.0",
     "ethers": "^4.0.0-beta.14",
-    "fs-extra": "^8.1.0"
+    "fs-extra": "^8.1.0",
+    "web3-core-helpers": "^1.2.11",
+    "web3-core-requestmanager": "^1.2.11",
+    "web3-providers-http": "^1.2.11"
   }
 }

@@ -1,93 +1,26 @@
-import {ethers} from "ethers";
+#!/usr/bin/env node
 
-// Relative Imports
-import config from "./config";
-import {connect, generateWallets, fundWallets, batchTxs, testOpcodes, testEdgecases} from "./anemone";
-import {TransactionsMined} from "./utilities/isTransactionMined";
-import {JsonRpcProvider} from 'ethers/providers';
-import {deployContracts, prepareTxData} from "./utilities/build";
-import {parseArgs} from "./utilities/parseArgs";
-import { exists } from "fs";
+const {Command} = require('commander');
+const program = new Command();
+program.description("Anemone is an Ethereum node compatibility testing tool.")
 
-export const Main = async () => {
-  //set up args
-  let [rpcUrl, pk] = parseArgs();
+// Comands
+import * as commands from "./cmds"; 
 
-  // Provider
-  let provider: JsonRpcProvider;
+program.allowUnknownOption(false);
 
-  if (rpcUrl !=null) {
-    provider = connect(rpcUrl);
-  } else {
-    provider = connect(config.rpcUrl);
-  }
+for (let cmd in commands) {
+    program.addCommand(commands[cmd])
+}
 
-  // Constants
-  const numWallets: number = config.numWallets;
-  // Setup wallets
-  let mainWallet;
-
-  if (pk !=null) {
-    mainWallet = new ethers.Wallet(pk, provider);
-  } else {
-    console.log("Please provide valid private key!")
-    process.exit();
-  }
-
-  const wallets = await generateWallets(numWallets);
-
-  // Send fuel to subwallets
-  const txHashes: string[] = await fundWallets(wallets, mainWallet);
-
-  // Wait for Transactions fueling subwallets to be mined
-  await TransactionsMined(txHashes, 500, provider);
-
-  // Create and send transactions as specified in config
-  await batchTxs(wallets, provider);
-
-  if (config.testOpCodes){
-
-    // Deploy contracts from mainWallet
-    const deployedContracts = await deployContracts(mainWallet);
-    
-    // Wait for transactions to be mined
-    await TransactionsMined(deployedContracts, 500, provider);  
-
-    //workaround for transactionresponse objects not having value "create"
-    const addresses = [];
-    for (let i = 0; i< deployedContracts.length; i++){
-      let h = deployedContracts[i];
-      let a = await provider.getTransaction(h);
-      addresses.push(a["creates"]);
+if (process.argv && process.argv.length <= 2) {
+    program.outputHelp();
+} else {
+    try {
+        program.parse(process.argv);
+    } catch (e) {
+        program.outputHelp();
+        process.exit(1)
     }
+}
 
-    //call testOpcodes for each deployed contract
-    const responses = await testOpcodes(provider, addresses, mainWallet);
-
-    await TransactionsMined(responses, 500, provider);
-
-    // Log transaction reciepts
-    for (let i = 0; i< responses.length; i++){
-      let h = responses[i];
-      let a = await provider.getTransaction(h);
-      console.log(a);
-    }
-  }
-
-  if (config.testEdgecases) {
-    const edgecases = prepareTxData();
-    const txResponses = await testEdgecases(provider, edgecases, mainWallet);
-      // Log transaction reciepts
-    for (let i = 0; i< txResponses.length; i++){
-      let h = txResponses[i];
-      let a = await provider.getTransaction(h);
-      console.log(a);
-    }  
-
-  }
-
-};
-
-Main()
-  .then(() => { console.log("Anemone executed without errors!");})
-  .catch((err: any) => { console.log("Anemone executed with errors: ", err);});
