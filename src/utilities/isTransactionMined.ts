@@ -35,7 +35,7 @@ const transactionRecieptExist = async (
 ) => {
   const txResponse = await provider.getTransaction(txHash);
   return new Promise(resolve => {
-    if (txResponse.blockNumber == null) {
+    if (txResponse == null) {
       setTimeout(async function() {
         const temp = await transactionRecieptExist(txHash, interval, provider);
         resolve(temp);

@@ -49,7 +49,7 @@ const fundWallets = async (wallets: any[], mainWallet: any): Promise<string[]> =
       chainId: config.chainId
     };
     const txResponse = await mainWallet.sendTransaction(tx);
-    console.log(`sent transaction to fund address ${dest} at provider ${ethers.providers.JsonRpcProvider.url}`);
+    console.log(`sent transaction to fund address ${dest} at provider ${mainWallet.provider.connection.url}`);
     txHashes.push(txResponse.hash);
     nonce += 1;
   }
@@ -90,7 +90,7 @@ const batchTxs = async (wallets: any[], provider: JsonRpcProvider) => {
       txs.push(tx); 
     }
   }
-  console.log(`\nCreated and broadcasted ${txs.length} transactions at provider ${provider.url}`);
+  console.log(`\nCreated and broadcasted ${txs.length} transactions at provider ${provider.connection.url}`);
   return txs;
 };
 
@@ -101,7 +101,7 @@ const testOpcodes = async (provider: JsonRpcProvider, contractAddresses: any[], 
 
   let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
-  console.log(`calling testOpcodes at provider at provider ${provider.url}...`);
+  console.log(`calling testOpcodes at provider at provider ${provider.connection.url}...`);
 	
   for (let i = 0; i < contractAddresses.length; i++){
     const tx = {
@@ -128,7 +128,7 @@ const testOpcodes = async (provider: JsonRpcProvider, contractAddresses: any[], 
 const testEdgecases = async (provider: JsonRpcProvider, txData: any[], mainWallet) => {
   let nonce = await mainWallet.getTransactionCount();
   let txResponses = [];
-  console.log(`testing edgecases at ${provider.url}...`)
+  console.log(`testing edgecases at ${provider.connection.url}...`)
   for (let i = 0; i < txData.length; i++){
     console.log(txData[i]);
     const tx = {

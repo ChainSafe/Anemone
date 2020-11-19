@@ -64,6 +64,7 @@ export const Main = async () => {
     //call testOpcodes for each deployed contract
     const responses = await testOpcodes(provider, addresses, mainWallet);
 
+    // Wait for transactions to be mined
     await TransactionsMined(responses, 500, provider);
 
     // Log transaction reciepts
@@ -72,11 +73,16 @@ export const Main = async () => {
       let a = await provider.getTransaction(h);
       console.log(a);
     }
+    console.log(`\n`);
   }
 
   if (config.testEdgecases) {
     const edgecases = prepareTxData();
     const txResponses = await testEdgecases(provider, edgecases, mainWallet);
+
+    // Wait for transactions to be mined
+    await TransactionsMined(txResponses, 500, provider);
+
       // Log transaction reciepts
     for (let i = 0; i< txResponses.length; i++){
       let h = txResponses[i];
