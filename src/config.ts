@@ -38,6 +38,8 @@ const config = {
   //chainId, currently 1337 for kensignton testnet
   chainId: 1337,
 
+  //pk of a funded account
+   pk: '0x0000000000000000000000000000000000000000000000000000000000123456',
 };
 
 export default config;
