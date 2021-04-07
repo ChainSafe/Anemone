@@ -12,7 +12,7 @@ import { exists } from "fs";
 export const Main = async () => {
   //set up args
   let [rpcUrl, pk] = parseArgs();
-
+  
   // Provider
   let provider: JsonRpcProvider;
 
@@ -27,23 +27,25 @@ export const Main = async () => {
   // Setup wallets
   let mainWallet;
 
-  if (pk !=null) {
-    mainWallet = new ethers.Wallet(pk, provider);
-  } else {
-    console.log("Please provide valid private key!")
-    process.exit();
-  }
+  if (pk != null) {	
+    mainWallet = new ethers.Wallet(pk, provider);	
+ } else {	
+    mainWallet = new ethers.Wallet(config.pk, provider);	
+ }
 
   const wallets = await generateWallets(numWallets);
 
   // Send fuel to subwallets
   const txHashes: string[] = await fundWallets(wallets, mainWallet);
-
+  
   // Wait for Transactions fueling subwallets to be mined
   await TransactionsMined(txHashes, 500, provider);
 
   // Create and send transactions as specified in config
-  await batchTxs(wallets, provider);
+  const batchHashes = await batchTxs(wallets, provider);
+
+  // Wait for Transactions
+  await TransactionsMined(batchHashes, 500, provider);
 
   if (config.testOpCodes){
 
@@ -64,6 +66,7 @@ export const Main = async () => {
     //call testOpcodes for each deployed contract
     const responses = await testOpcodes(provider, addresses, mainWallet);
 
+    // Wait for transactions to be mined
     await TransactionsMined(responses, 500, provider);
 
     // Log transaction reciepts
@@ -72,18 +75,22 @@ export const Main = async () => {
       let a = await provider.getTransaction(h);
       console.log(a);
     }
+    console.log(`\n`);
   }
 
   if (config.testEdgecases) {
     const edgecases = prepareTxData();
     const txResponses = await testEdgecases(provider, edgecases, mainWallet);
-      // Log transaction reciepts
+    
+    // Wait for transactions to be mined
+    await TransactionsMined(txResponses, 500, provider);
+    
+    // Log transaction reciepts
     for (let i = 0; i< txResponses.length; i++){
       let h = txResponses[i];
       let a = await provider.getTransaction(h);
       console.log(a);
     }  
-
   }
 
 };

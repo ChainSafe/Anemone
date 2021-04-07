@@ -19,19 +19,20 @@ Anemone is a testing tool that broadcasts batches of transactions and tests opco
    **maxGas:** max gas to set for each transaction generated, **string**
 
    **chainId:** chainId, **num**
+   
+   **pk:** private key, it starts with **0x...**
 ## Set-up
 * run `yarn install`
 
 ## Start
 
 ### Flags
-**--pk** Private key, takes private key of wallet that will fund the other sender wallet and deploy opcode contracts.
+**--pk** (Optional) private key, takes private key of wallet that will fund the other sender wallet and deploy opcode contracts.
 
 **--rpcport** (Optional), specify url to node open for RPC, defaults to config value
 
-* Must have rpc port exposed on running geth instance.
+* Must have rpc port exposed
 * Must ensure the account associated with the private key provided is sufficiently funded
-* run `yarn start --pk YOUR_PRIVATE_KEY`
+* run `yarn start [OPTIONS]` 
 
 **Please ensure that the account associated with the private key provided is sufficiently funded**
-
